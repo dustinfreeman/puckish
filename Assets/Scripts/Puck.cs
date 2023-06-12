@@ -12,11 +12,24 @@ public class Puck : MonoBehaviour {
   [SerializeField]
   float preciseYawRate = 20;
   [SerializeField]
-  float shotForce = 600;
+  float shotForceMax = 4000;
+  [SerializeField]
+  float shotForceMin = 100;
+  [SerializeField]
+  float shotForceChargeTime = 5.0f;
+  [SerializeField]
+  float cueZTouching = -2.5f;
+  [SerializeField]
+  float cueZFarthestBack = -3.6f;
+
 
   [Header("Scene Objects")]
   [SerializeField]
   GameObject BallParent;
+
+  [Header("Internal Objects")]
+  [SerializeField]
+  GameObject CueStick;
 
   private Ball _currentBall;
   protected Ball currentBall {
@@ -35,6 +48,28 @@ public class Puck : MonoBehaviour {
 
   protected float yawing = 0;
   protected bool preciseYaw = false;
+
+  private bool _preparingCueShot = false;
+  protected bool PreparingCueShot {
+    get { return _preparingCueShot; }
+    set {
+      _preparingCueShot = value;
+      //CueStick.transform.localPosition = new Vector3(0, 0.5f, _preparingCueShot ? cueZFarthestBack : cueZTouching);
+      if (!_preparingCueShot) {
+        ShotForceCharged = shotForceMin;
+      }
+    }
+  }
+  private float _shotForceCharged = 0;
+  protected float ShotForceCharged {
+    get { return _shotForceCharged; }
+    set {
+      _shotForceCharged = value;
+      //TODO: display non-linearly for dramatic reasons
+      CueStick.transform.localPosition = new Vector3(0, 0.5f, cueZTouching +
+        ((cueZFarthestBack - cueZTouching) * (ShotForceCharged - shotForceMin) / (shotForceMax - shotForceMin)));
+    }
+  }
 
   private void Start() {
     currentBall = BallParent.GetComponentsInChildren<Ball>().First();
@@ -64,6 +99,8 @@ public class Puck : MonoBehaviour {
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
   public void OnMove(InputValue value) {
+    PreparingCueShot = false;
+
     var v = value.Get<Vector2>();
     ChooseNextBall((int)v.y);
 
@@ -71,12 +108,22 @@ public class Puck : MonoBehaviour {
   }
 
   public void OnJump(InputValue value) {
-    //Hit the ball!
-    if (value.isPressed) {
+    if (yawing != 0) {
+      PreparingCueShot = false;
+      return;
+    }
+
+    if (PreparingCueShot && !value.isPressed) {
+      //Hit the ball!
       var rb = currentBall.GetComponent<Rigidbody>();
-      rb.AddForce(transform.forward * shotForce);
+      rb.AddForce(transform.forward * ShotForceCharged);
       StartCoroutine(WaitAllBallsStoppedMoving());
     }
+    if (!PreparingCueShot && value.isPressed) {
+      //start pulling back
+      ShotForceCharged = shotForceMin;
+    }
+    PreparingCueShot = value.isPressed;
   }
 
   public void OnSprint(InputValue value) {
@@ -85,6 +132,17 @@ public class Puck : MonoBehaviour {
 #endif
 
   protected void Update() {
+    PrepareCueShot();
+    Yaw();
+  }
+
+  void PrepareCueShot() {
+    if (PreparingCueShot) {
+      ShotForceCharged += Time.deltaTime * (shotForceMax - shotForceMin) / shotForceChargeTime;
+    }
+  }
+
+  void Yaw() {
     var currentYawRate = preciseYaw ? preciseYawRate : yawRate;
     transform.eulerAngles -= Vector3.up * yawing * currentYawRate * Time.deltaTime;
   }
