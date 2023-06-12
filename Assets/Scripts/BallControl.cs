@@ -9,9 +9,7 @@ public class BallControl : MonoBehaviour {
       var rb = this.GetComponent<Rigidbody>();
       rb.AddForce(Vector3.left * 50);
     }
-
 #endif
   }
-
 }
 
