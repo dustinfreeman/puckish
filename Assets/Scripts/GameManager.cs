@@ -4,6 +4,8 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager> {
   [SerializeField]
   TMPro.TextMeshPro OverlayText;
+  [SerializeField]
+  AudioSource HoleStartSFX;
 
   readonly Dictionary<string, TargetCollider> targets = new Dictionary<string, TargetCollider>();
   public void RegisterTarget(TargetCollider target) {
@@ -49,6 +51,9 @@ Press Enter";
       Puck.Instance.CurrentBall = Puck.Instance.CurrentBall;
       //TODO: set orientation looking from ball to target;
       OnAcknowledge = null;
+
+      //TODO: Only on success
+      HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
     };
 
     //TODO: Success

@@ -31,6 +31,9 @@ public class Puck : Singleton<Puck> {
   [SerializeField]
   GameObject CueStick;
 
+  [SerializeField]
+  AudioSource CueHitSFX;
+
   private Ball _currentBall;
   public Ball CurrentBall {
     get { return _currentBall; }
@@ -121,6 +124,7 @@ public class Puck : Singleton<Puck> {
       //Hit the ball!
       var rb = CurrentBall.GetComponent<Rigidbody>();
       rb.AddForce(transform.forward * ShotForceCharged);
+      CueHitSFX.PlayOneShot(CueHitSFX.clip);
       this.TakeShot(CurrentBall);
       StartCoroutine(WaitAllBallsStoppedMoving());
     }
