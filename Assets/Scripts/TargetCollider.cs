@@ -8,9 +8,12 @@ public class TargetCollider : MonoBehaviour {
     return collides;
   }
 
+  protected void Start() {
+    GameManager.Instance.RegisterTarget(this);
+  }
 
   private void Update() {
-    Debug.Log(DoCollidersOverlap(Puck.Instance.CurrentBall.gameObject, gameObject));
+    //Debug.Log(DoCollidersOverlap(Puck.Instance.CurrentBall.gameObject, gameObject));
   }
 
 }

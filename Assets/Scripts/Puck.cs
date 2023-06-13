@@ -70,6 +70,11 @@ public class Puck : Singleton<Puck> {
     }
   }
 
+  public event Action<Ball> TakeShot;
+  public event Action AllBallsStopped;
+
+  public event Action PuckAcknowledges;
+
   private void Start() {
     CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
     Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
@@ -116,6 +121,7 @@ public class Puck : Singleton<Puck> {
       //Hit the ball!
       var rb = CurrentBall.GetComponent<Rigidbody>();
       rb.AddForce(transform.forward * ShotForceCharged);
+      this.TakeShot(CurrentBall);
       StartCoroutine(WaitAllBallsStoppedMoving());
     }
     if (!PreparingCueShot && value.isPressed) {
@@ -127,6 +133,12 @@ public class Puck : Singleton<Puck> {
 
   public void OnSprint(InputValue value) {
     preciseYaw = value.isPressed;
+  }
+
+  public void OnAcknowledge(InputValue value) {
+    if (value.isPressed) {
+      PuckAcknowledges();
+    }
   }
 #endif
 
@@ -167,6 +179,7 @@ public class Puck : Singleton<Puck> {
     }
 
     Debug.Log("All Balls Stopped Moving");
+    AllBallsStopped();
   }
 
 }
