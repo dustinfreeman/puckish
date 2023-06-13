@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Puck : MonoBehaviour {
+public class Puck : Singleton<Puck> {
 
   [Header("Feelings")]
   [SerializeField]
@@ -32,7 +32,7 @@ public class Puck : MonoBehaviour {
   GameObject CueStick;
 
   private Ball _currentBall;
-  protected Ball currentBall {
+  public Ball CurrentBall {
     get { return _currentBall; }
     set {
       _currentBall = value;
@@ -41,8 +41,7 @@ public class Puck : MonoBehaviour {
         //want to be "on ground"
         -(Vector3.up * _currentBall.transform.localScale.y * 0.5f);
 
-      //TODO: reset rotation?
-      //transform.eulerAngles = Vector3.zero;
+      transform.eulerAngles = new Vector3(0, _currentBall.transform.eulerAngles.y, 0);
     }
   }
 
@@ -72,21 +71,21 @@ public class Puck : MonoBehaviour {
   }
 
   private void Start() {
-    currentBall = BallParent.GetComponentsInChildren<Ball>().First();
-    Debug.Log("Current Ball By Name: " + currentBall + transform.eulerAngles.ToString());
+    CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
+    Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
   }
 
   void ChooseNextBall(int dirn) {
     if (dirn == 0) {
       return;
     }
-    if (!currentBall) {
-      currentBall = BallParent.GetComponentsInChildren<Ball>().First();
+    if (!CurrentBall) {
+      CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
       return;
     }
 
     var ballArray = BallParent.GetComponentsInChildren<Ball>();
-    int currentIndex = System.Array.IndexOf(ballArray, currentBall);
+    int currentIndex = System.Array.IndexOf(ballArray, CurrentBall);
 
     //TODO: surely I can do this index rotation more tersely?
     int nextIndex = (currentIndex + dirn) % ballArray.Length;
@@ -94,7 +93,7 @@ public class Puck : MonoBehaviour {
       nextIndex = ballArray.Length - 1;
     }
 
-    currentBall = ballArray[nextIndex];
+    CurrentBall = ballArray[nextIndex];
   }
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -115,7 +114,7 @@ public class Puck : MonoBehaviour {
 
     if (PreparingCueShot && !value.isPressed) {
       //Hit the ball!
-      var rb = currentBall.GetComponent<Rigidbody>();
+      var rb = CurrentBall.GetComponent<Rigidbody>();
       rb.AddForce(transform.forward * ShotForceCharged);
       StartCoroutine(WaitAllBallsStoppedMoving());
     }
