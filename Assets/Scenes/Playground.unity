@@ -7254,7 +7254,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.5
+      value: 12.75
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -7264,7 +7264,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27
+      value: 26.25
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -15209,7 +15209,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.75
+      value: 7.25
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -15219,7 +15219,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27
+      value: 27.5
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -16488,7 +16488,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -17628,7 +17628,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 024b12b5da149014bbd073be7383dda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: Let us start with basic exercises...
+  Description: "Let us start with basic exercises...\n\rPress A or W to Rotate your
+    Aim\r\nPress Spacebar for a light tap. Hold longer to hit more strongly\r\nGet
+    me, the Head Butler, into the Grove"
   Ball: Head Butler
   BallStartTransforms:
   - BallName: Head Butler
@@ -54128,7 +54130,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

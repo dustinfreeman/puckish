@@ -102,30 +102,43 @@ disrupting a dinner party
   }
 
   private void Puck_AllBallsStopped() {
-    Debug.Log("Game Manager: Stop Stop Stop");
+    //Debug.Log("Game Manager: Stop Stop Stop");
 
-    bool successHole1 = TargetCollider.DoCollidersOverlap(targets["The Grove"].gameObject, Puck.Instance.CurrentBall.gameObject);
-    Debug.LogFormat("Success for Hole 1? {0}", successHole1);
+    bool success = true;
+    foreach (var successDefn in CurrentHole().SuccessDefns) {
+      if (!TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject)) {
+        success = false;
+      }
+    }
 
-    bool successHole2 = TargetCollider.DoCollidersOverlap(targets["Back Lobby"].gameObject, Puck.Instance.CurrentBall.gameObject);
-    Debug.LogFormat("Success for Hole 2? {0}", successHole2);
-
-    //No Success Yet:
-    OverlayText.text = @"Take Next Shot?
+    if (!success) {
+      OverlayText.text = @"Take Next Shot?
 Press Enter";
-    OnAcknowledge = () =>
-    {
-      Puck.Instance.CurrentBall = Puck.Instance.CurrentBall;
-      //TODO: set orientation looking from ball to target;
-      OnAcknowledge = null;
-
-      //TODO: Only on success
+      OnAcknowledge = () =>
+      {
+        Puck.Instance.CurrentBall = Puck.Instance.CurrentBall;
+        //TODO: set orientation looking from ball to target;
+        OnAcknowledge = null;
+      };
+    } else { //completed hole
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
-    };
 
-    //TODO: Success
-    //Give Report Card
-    //Next Hole (Tap Enter)
+      if (HoleIndex < Course.Instance.GetHoles().Length - 1) {
+        OverlayText.text = @"Hole Completed!
+Press Enter for Next";
+        OnAcknowledge = () =>
+        {
+          HoleIndex += 1;
+          OnAcknowledge = null;
+        };
+      } else {
+        OverlayText.text = @"You have finished
+this Evening's Course
+
+Press Enter to End";
+        //TODO: main screen
+      }
+    }
   }
 
   private void Puck_TakeShot(Ball obj) {
