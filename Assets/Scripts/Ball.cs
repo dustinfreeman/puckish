@@ -4,16 +4,12 @@ using UnityEngine;
 
 
 public class Ball : MonoBehaviour {
-  [SerializeField]
-  TMPro.TextMeshPro textName;
-
   AudioSource barks;
   float[] oofs = { 115.9f, 117.7f, 120.0f, 122.7f };
 
   protected void Awake() {
     GameManager.RegisterBall(this);
     barks = GetComponent<AudioSource>();
-    textName.text = gameObject.name;
   }
 
   private void OnCollisionEnter(Collision collision) {
