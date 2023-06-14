@@ -39,12 +39,22 @@ public class Puck : Singleton<Puck> {
     get { return _currentBall; }
     set {
       _currentBall = value;
+      CanTakeShot = true;
 
       transform.position = _currentBall.transform.position +
         //want to be "on ground"
         -(Vector3.up * _currentBall.transform.localScale.y * 0.5f);
 
       transform.eulerAngles = new Vector3(0, _currentBall.transform.eulerAngles.y, 0);
+    }
+  }
+
+  private bool _canTakeShot = true;
+  public bool CanTakeShot {
+    get { return _canTakeShot; }
+    set {
+      _canTakeShot = value;
+      CueStick.SetActive(_canTakeShot);
     }
   }
 
@@ -122,6 +132,8 @@ public class Puck : Singleton<Puck> {
       PreparingCueShot = false;
       return;
     }
+
+    if (!CanTakeShot) { return; }
 
     if (PreparingCueShot && !value.isPressed) {
       //Hit the ball!

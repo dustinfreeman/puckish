@@ -129,6 +129,7 @@ Press Enter";
   }
 
   private void Puck_TakeShot(Ball obj) {
+    Puck.Instance.CanTakeShot = false;
     Debug.Log("Shots shots shots shots");
   }
 
