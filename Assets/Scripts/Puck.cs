@@ -75,6 +75,7 @@ public class Puck : Singleton<Puck> {
 
   public event Action<Ball> TakeShot;
   public event Action AllBallsStopped;
+  public event Action AnyAction;
   public event Action PuckAcknowledges;
   public event Action<int> Next;
 
@@ -107,6 +108,7 @@ public class Puck : Singleton<Puck> {
     ChooseNextBall((int)v.y);
 
     yawing = v.x;
+    AnyAction();
   }
 
   public void OnNext(InputValue value) {
@@ -114,6 +116,8 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnJump(InputValue value) {
+    AnyAction();
+
     if (yawing != 0) {
       PreparingCueShot = false;
       return;
@@ -139,6 +143,7 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnAcknowledge(InputValue value) {
+    AnyAction();
     if (value.isPressed) {
       PuckAcknowledges();
     }

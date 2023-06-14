@@ -77,14 +77,18 @@ A tall, dark strangers returns,
 disrupting a dinner party
 ";
 
-    OverlayText.text = manorOverlay;
-
+    OverlayText.text = gardenOverlay;
 
 
     Puck.Instance.TakeShot += Puck_TakeShot;
+    Puck.Instance.AnyAction += Puck_AnyAction;
     Puck.Instance.AllBallsStopped += Puck_AllBallsStopped;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
     Puck.Instance.Next += Puck_Next;
+  }
+
+  private void Puck_AnyAction() {
+    OverlayText.text = "";
   }
 
   private void Puck_Next(int nextDirn) {
