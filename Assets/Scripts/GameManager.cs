@@ -30,22 +30,37 @@ public class GameManager : Singleton<GameManager> {
     get { return _holeIndex; }
     set {
       _holeIndex = value;
+      Debug.LogFormat("Hole Index {0}", HoleIndex);
 
-      var hole = CurrentHole();
-      foreach (var ballStart in hole.BallStartTransforms) {
-        balls[ballStart.BallName].transform.position = ballStart.StartTransform.position;
-        balls[ballStart.BallName].transform.rotation = ballStart.StartTransform.rotation;
+      var act = Course.Instance.GetActs()[HoleIndex];
+      OverlayText.text = act.Description;
+      if (act is HoleDefn) {
+        var hole = (HoleDefn)act;
+        foreach (var ballStart in hole.BallStartTransforms) {
+          balls[ballStart.BallName].transform.position = ballStart.StartTransform.position;
+          balls[ballStart.BallName].transform.rotation = ballStart.StartTransform.rotation;
+        }
+        Puck.Instance.CurrentBall = balls[hole.Ball];
+      } else {
+        Puck.Instance.CurrentBall = null;
+        Puck.Instance.SetViewpoint(act.StartView);
       }
-
-      Puck.Instance.CurrentBall = balls[hole.Ball];
     }
   }
   public HoleDefn CurrentHole() {
-    return Course.Instance.GetHoles()[HoleIndex];
+    var act = Course.Instance.GetActs()[HoleIndex];
+    if (act is HoleDefn) {
+      return (HoleDefn)act;
+    }
+    return null;
   }
 
   void SanityCheckCourse() {
-    foreach (var hole in Course.Instance.GetHoles()) {
+    foreach (var act in Course.Instance.GetActs()) {
+      if (!(act is HoleDefn)) {
+        continue;
+      }
+      var hole = (HoleDefn)act;
       if (!balls.ContainsKey(hole.Ball)) {
         Debug.LogErrorFormat("{1}: Missing Ball with name {0}", hole.Ball, hole.name);
       }
@@ -68,23 +83,13 @@ public class GameManager : Singleton<GameManager> {
   void Start() {
     SanityCheckCourse();
 
-    var gardenOverlay = @"THE GARDEN:
-A place of education
-
-";
-    var manorOverlay = @"THE MANOR:
-A tall, dark strangers returns, 
-disrupting a dinner party
-";
-
-    OverlayText.text = gardenOverlay;
-
-
     Puck.Instance.TakeShot += Puck_TakeShot;
     Puck.Instance.AnyAction += Puck_AnyAction;
     Puck.Instance.AllBallsStopped += Puck_AllBallsStopped;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
     Puck.Instance.Next += Puck_Next;
+
+    HoleIndex = 0;
   }
 
   private void Puck_AnyAction() {
@@ -93,7 +98,7 @@ disrupting a dinner party
 
   private void Puck_Next(int nextDirn) {
     Debug.Log("Puck says next hole " + nextDirn);
-    HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetHoles().Length);
+    HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetActs().Length);
   }
 
   protected System.Action OnAcknowledge;
@@ -103,6 +108,10 @@ disrupting a dinner party
 
   private void Puck_AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
+
+    if (!CurrentHole()) {
+      return;
+    }
 
     bool success = true;
     foreach (var successDefn in CurrentHole().SuccessDefns) {
@@ -123,7 +132,7 @@ Press Enter";
     } else { //completed hole
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
 
-      if (HoleIndex < Course.Instance.GetHoles().Length - 1) {
+      if (HoleIndex < Course.Instance.GetActs().Length - 1) {
         OverlayText.text = @"Hole Completed!
 Press Enter for Next";
         OnAcknowledge = () =>
@@ -146,7 +155,4 @@ Press Enter to End";
     Debug.Log("Shots shots shots shots");
   }
 
-  //Press A or W to Rotate your Aim
-  //Press Spacebar for a light tap. Hold longer to hit more strongly
-  //Get me, the Head Butler, into the Grove
 }

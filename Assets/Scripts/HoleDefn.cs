@@ -13,10 +13,7 @@ public struct SuccessDefn {
   public string Target;
 }
 
-
-public class HoleDefn : MonoBehaviour {
-  [TextAreaAttribute]
-  public string Description;
+public class HoleDefn : Act {
   public string Ball; //Player-Controlled
   public BallStartTransform[] BallStartTransforms;
   public SuccessDefn[] SuccessDefns;

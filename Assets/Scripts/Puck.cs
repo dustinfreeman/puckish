@@ -34,18 +34,22 @@ public class Puck : Singleton<Puck> {
   [SerializeField]
   AudioSource CueHitSFX;
 
-  private Ball _currentBall;
+  public void SetViewpoint(Transform viewpointTransform) {
+    transform.position = viewpointTransform.position +
+  //want to be "on ground"
+  -(Vector3.up * viewpointTransform.localScale.y * 0.5f);
+    transform.eulerAngles = new Vector3(0, viewpointTransform.eulerAngles.y, 0);
+  }
+
+  private Ball _currentBall = null;
   public Ball CurrentBall {
     get { return _currentBall; }
     set {
       _currentBall = value;
-      CanTakeShot = true;
-
-      transform.position = _currentBall.transform.position +
-        //want to be "on ground"
-        -(Vector3.up * _currentBall.transform.localScale.y * 0.5f);
-
-      transform.eulerAngles = new Vector3(0, _currentBall.transform.eulerAngles.y, 0);
+      CanTakeShot = (bool)_currentBall;
+      if (!_currentBall) { return; }
+      Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
+      SetViewpoint(_currentBall.transform);
     }
   }
 
@@ -90,8 +94,7 @@ public class Puck : Singleton<Puck> {
   public event Action<int> Next;
 
   private void Start() {
-    CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
-    Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
+    //CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
   }
 
   void ChooseNextBall(int dirn) {
