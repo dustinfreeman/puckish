@@ -1,4 +1,3 @@
-
 static class Utils {
   public static int WrapClamp(int current, int delta, int length) {
     int next = current + delta;
@@ -9,5 +8,9 @@ static class Utils {
       next = 0;
     }
     return next;
+  }
+
+  public static float ChooseRandom(float[] arr) {
+    return arr[UnityEngine.Random.Range(0, arr.Length)];
   }
 }
