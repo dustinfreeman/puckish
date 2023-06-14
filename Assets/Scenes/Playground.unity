@@ -6494,7 +6494,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 25.712894
+      value: 24.5
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -6504,12 +6504,12 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.0515537
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8553098
+      value: 0.90241677
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -6519,7 +6519,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.518117
+      value: -0.43086433
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -6534,7 +6534,7 @@ PrefabInstance:
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -62.412
+      value: -51.045
       objectReference: {fileID: 0}
     - target: {fileID: 6777260352782561951, guid: 2f51cfc19ba98734c896fbe7cf1d16df,
         type: 3}
@@ -18574,6 +18574,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1822783861}
   - {fileID: 1755419900}
   - {fileID: 967431327}
   - {fileID: 1377971536}
@@ -48982,6 +48983,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3469809551256345619}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1822783860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822783861}
+  - component: {fileID: 1822783862}
+  m_Layer: 0
+  m_Name: GameStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1822783861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822783860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 992542088}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1822783862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822783860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fce6ec6d97be4d45a38462e0b01845f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Description: "= PUCKISH = \n\nDesign/Code by Dustin Freeman\n\nVoice - Yoshi the
+    Yeen\nMusic/SFX - Doktor Plekter"
+  StartView: {fileID: 315462585}
 --- !u!4 &1826711792 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
@@ -55085,8 +55133,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
