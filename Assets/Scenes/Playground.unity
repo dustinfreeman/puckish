@@ -17847,6 +17847,7 @@ MonoBehaviour:
   SuccessDefns:
   - BallName: Head Butler
     Target: The Grove
+  Par: 0
 --- !u!1001 &985896546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34967,6 +34968,7 @@ MonoBehaviour:
   SuccessDefns:
   - BallName: Assistant Butler
     Target: The Nook
+  Par: 0
 --- !u!4 &1389251053 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
@@ -46320,6 +46322,7 @@ MonoBehaviour:
     Target: AssistantButlerNapSpot
   - BallName: Head Butler
     Target: HeadButlerNapSpot
+  Par: 3
 --- !u!1 &1790882031
 GameObject:
   m_ObjectHideFlags: 0

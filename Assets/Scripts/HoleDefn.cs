@@ -17,4 +17,5 @@ public class HoleDefn : Act {
   public string Ball; //Player-Controlled
   public BallStartTransform[] BallStartTransforms;
   public SuccessDefn[] SuccessDefns;
+  public int Par = 0;
 }

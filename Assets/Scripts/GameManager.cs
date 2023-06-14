@@ -25,12 +25,15 @@ public class GameManager : Singleton<GameManager> {
     balls.Add(ball.name, ball);
   }
 
+  protected int ShotsTakenThisHole = 0;
+
   private int _holeIndex = 0;
   public int HoleIndex {
     get { return _holeIndex; }
     set {
       _holeIndex = value;
       Debug.LogFormat("Hole Index {0}", HoleIndex);
+      ShotsTakenThisHole = 0;
 
       var act = Course.Instance.GetActs()[HoleIndex];
       OverlayText.text = act.Description;
@@ -41,6 +44,10 @@ public class GameManager : Singleton<GameManager> {
           balls[ballStart.BallName].transform.rotation = ballStart.StartTransform.rotation;
         }
         Puck.Instance.CurrentBall = balls[hole.Ball];
+
+        if (hole.Par > 0) {
+          OverlayText.text += string.Format("\n\nPar: {0}", hole.Par);
+        }
       } else {
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
@@ -106,6 +113,13 @@ public class GameManager : Singleton<GameManager> {
     OnAcknowledge?.Invoke();
   }
 
+  private string ParDisplay() {
+    if (CurrentHole().Par == 0) {
+      return "";
+    }
+    return string.Format("Shots Taken: {0}  Par: {1}\n", ShotsTakenThisHole, CurrentHole().Par);
+  }
+
   private void Puck_AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
 
@@ -121,7 +135,7 @@ public class GameManager : Singleton<GameManager> {
     }
 
     if (!success) {
-      OverlayText.text = @"Take Next Shot?
+      OverlayText.text = ParDisplay() + @"Take Next Shot?
 Press Enter";
       OnAcknowledge = () =>
       {
@@ -133,7 +147,7 @@ Press Enter";
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
 
       if (HoleIndex < Course.Instance.GetActs().Length - 1) {
-        OverlayText.text = @"Hole Completed!
+        OverlayText.text = ParDisplay() + @"Hole Completed!
 Press Enter for Next";
         OnAcknowledge = () =>
         {
@@ -152,6 +166,7 @@ Press Enter to End";
 
   private void Puck_TakeShot(Ball obj) {
     Puck.Instance.CanTakeShot = false;
+    ShotsTakenThisHole++;
     Debug.Log("Shots shots shots shots");
   }
 
