@@ -7,8 +7,8 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField]
   AudioSource HoleStartSFX;
 
-  readonly Dictionary<string, TargetCollider> targets = new Dictionary<string, TargetCollider>();
-  public void RegisterTarget(TargetCollider target) {
+  readonly static Dictionary<string, TargetCollider> targets = new Dictionary<string, TargetCollider>();
+  public static void RegisterTarget(TargetCollider target) {
     if (targets.ContainsKey(target.name)) {
       Debug.LogErrorFormat("Found Duplicate Target Name: {0}", target.name);
       return;
@@ -16,23 +16,86 @@ public class GameManager : Singleton<GameManager> {
     targets.Add(target.name, target);
   }
 
+  readonly static Dictionary<string, Ball> balls = new Dictionary<string, Ball>();
+  public static void RegisterBall(Ball ball) {
+    if (balls.ContainsKey(ball.name)) {
+      Debug.LogErrorFormat("Found Duplicate Ball Name: {0}", ball.name);
+      return;
+    }
+    balls.Add(ball.name, ball);
+  }
+
+  private int _holeIndex = 0;
+  public int HoleIndex {
+    get { return _holeIndex; }
+    set {
+      _holeIndex = value;
+
+      var hole = CurrentHole();
+      foreach (var ballStart in hole.BallStartTransforms) {
+        balls[ballStart.BallName].transform.position = ballStart.StartTransform.position;
+        balls[ballStart.BallName].transform.rotation = ballStart.StartTransform.rotation;
+      }
+
+      Puck.Instance.CurrentBall = balls[hole.Ball];
+    }
+  }
+  public HoleDefn CurrentHole() {
+    return Course.Instance.GetHoles()[HoleIndex];
+  }
+
+  void SanityCheckCourse() {
+    foreach (var hole in Course.Instance.GetHoles()) {
+      if (!balls.ContainsKey(hole.Ball)) {
+        Debug.LogErrorFormat("{1}: Missing Ball with name {0}", hole.Ball, hole.name);
+      }
+      foreach (var ballStart in hole.BallStartTransforms) {
+        if (!balls.ContainsKey(ballStart.BallName)) {
+          Debug.LogErrorFormat("{1}: Missing Ball with name {0}", ballStart.BallName, hole.name);
+        }
+      }
+      foreach (var successDefn in hole.SuccessDefns) {
+        if (!balls.ContainsKey(successDefn.BallName)) {
+          Debug.LogErrorFormat("{1}: Missing Ball with name {0}", successDefn.BallName, hole.name);
+        }
+        if (!targets.ContainsKey(successDefn.Target)) {
+          Debug.LogErrorFormat("{1}: Missing Target with name {0}", successDefn.Target, hole.name);
+        }
+      }
+    }
+  }
+
   void Start() {
-    OverlayText.text = @"THE GARDEN:
+    SanityCheckCourse();
+
+    var gardenOverlay = @"THE GARDEN:
 A place of education
 
 ";
+    var manorOverlay = @"THE MANOR:
+A tall, dark strangers returns, 
+disrupting a dinner party
+";
+
+    OverlayText.text = manorOverlay;
+
+
 
     Puck.Instance.TakeShot += Puck_TakeShot;
     Puck.Instance.AllBallsStopped += Puck_AllBallsStopped;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
+    Puck.Instance.Next += Puck_Next;
+  }
+
+  private void Puck_Next(int nextDirn) {
+    Debug.Log("Puck says next hole " + nextDirn);
+    HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetHoles().Length);
   }
 
   protected System.Action OnAcknowledge;
   private void Puck_PuckAcknowledges() {
     OnAcknowledge?.Invoke();
   }
-
-  //Hole: Name, Success Requirements (Name: Function Test()), Ball, Setup (List of Balls, Positions)
 
   private void Puck_AllBallsStopped() {
     Debug.Log("Game Manager: Stop Stop Stop");

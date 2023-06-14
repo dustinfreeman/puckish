@@ -75,8 +75,8 @@ public class Puck : Singleton<Puck> {
 
   public event Action<Ball> TakeShot;
   public event Action AllBallsStopped;
-
   public event Action PuckAcknowledges;
+  public event Action<int> Next;
 
   private void Start() {
     CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
@@ -95,12 +95,7 @@ public class Puck : Singleton<Puck> {
     var ballArray = BallParent.GetComponentsInChildren<Ball>();
     int currentIndex = System.Array.IndexOf(ballArray, CurrentBall);
 
-    //TODO: surely I can do this index rotation more tersely?
-    int nextIndex = (currentIndex + dirn) % ballArray.Length;
-    if (nextIndex < 0) {
-      nextIndex = ballArray.Length - 1;
-    }
-
+    int nextIndex = Utils.WrapClamp(currentIndex, dirn, ballArray.Length);
     CurrentBall = ballArray[nextIndex];
   }
 
@@ -112,6 +107,10 @@ public class Puck : Singleton<Puck> {
     ChooseNextBall((int)v.y);
 
     yawing = v.x;
+  }
+
+  public void OnNext(InputValue value) {
+    Next((int)value.Get<float>());
   }
 
   public void OnJump(InputValue value) {

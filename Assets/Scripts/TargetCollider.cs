@@ -8,8 +8,8 @@ public class TargetCollider : MonoBehaviour {
     return collides;
   }
 
-  protected void Start() {
-    GameManager.Instance.RegisterTarget(this);
+  protected void Awake() {
+    GameManager.RegisterTarget(this);
   }
 
   private void Update() {
