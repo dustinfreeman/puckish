@@ -4766,7 +4766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &222130389
 Transform:
   m_ObjectHideFlags: 0
@@ -17097,8 +17097,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "You are the host of this party, \nand you will not tolerate \na rude
-    interruption!\n\nPull the Stranger into your \nAntechamber"
+  Description: "As the host of the party,\nand you will not tolerate \na rude interruption!\n\nPull
+    the Stranger into your \nAntechamber"
   StartView: {fileID: 0}
   Ball: The Host
   BallStartTransforms: []
@@ -18824,9 +18824,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Let us start with basic exercises...\n\rGet me, the Head Butler,
-    into the Grove\n\n\nPress A or W to Rotate your Aim\r\nPress Spacebar for a light
-    tap. \nHold longer to hit more strongly\r"
+  Description: "Let us start with basic exercises...\n\rGet me into the Grove\n\nPress
+    A or W to Rotate your Aim\r\nPress Spacebar for a light tap. \nHold longer to
+    hit more strongly\r"
   StartView: {fileID: 0}
   Ball: Head Butler
   BallStartTransforms:
@@ -34968,8 +34968,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "You are a stranger, returned to town \nafter not being seen for 20
-    years.\n\nRight in the middle of a dinner party..."
+  Description: 'You return to town suddenly,
+
+    after not being seen for 20 years.
+
+
+    Right
+    in the middle of a dinner party...'
   StartView: {fileID: 0}
   Ball: The Stranger
   BallStartTransforms:
@@ -41066,8 +41071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "You are the Socialite.\n\nWhile the host is distracted,\nget the
-    lovers into \nthe Host's Quarters."
+  Description: "While the host is distracted,\nget the lovers into \nthe Host's Quarters\nfor
+    a private moment."
   StartView: {fileID: 0}
   Ball: The Socialite
   BallStartTransforms:
