@@ -107,7 +107,11 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void Puck_AnyAction() {
-    OverlayText.text = "";
+    if (Puck.Instance.CurrentBall != null) {
+      //ready to orient for the shot, hide overlay
+      OverlayText.text = "";
+    }
+
     Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
   }
 
@@ -171,7 +175,7 @@ Press Enter to End";
         HoleIndex = 0; //to the main screen again
       }
     }
-    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
+    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
   }
 
   private void Puck_TakeShot(Ball obj) {
