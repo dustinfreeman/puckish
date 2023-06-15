@@ -97,7 +97,7 @@ public class Puck : Singleton<Puck> {
   public event Action PuckAcknowledges;
   public event Action<int> Next;
 
-  protected void Awake() {
+  protected override void Awake() {
     base.Awake();
     CurrentBall = null;
   }
@@ -149,6 +149,7 @@ public class Puck : Singleton<Puck> {
       rb.AddForce(transform.forward * ShotForceCharged);
       CueHitSFX.PlayOneShot(CueHitSFX.clip);
       this.TakeShot(CurrentBall);
+      CurrentBall = null;
       StartCoroutine(WaitAllBallsStoppedMoving());
     }
     if (!PreparingCueShot && value.isPressed) {

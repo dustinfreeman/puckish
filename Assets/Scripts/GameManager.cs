@@ -51,6 +51,12 @@ public class GameManager : Singleton<GameManager> {
       } else {
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
+        OverlayText.text += "\n\n(Press Enter to Continue)";
+        OnAcknowledge = () =>
+        {
+          HoleIndex += 1;
+          OnAcknowledge = null;
+        };
       }
     }
   }
@@ -139,7 +145,7 @@ public class GameManager : Singleton<GameManager> {
 Press Enter";
       OnAcknowledge = () =>
       {
-        Puck.Instance.CurrentBall = Puck.Instance.CurrentBall;
+        Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
         //TODO: set orientation looking from ball to target;
         OnAcknowledge = null;
       };
