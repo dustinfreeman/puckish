@@ -58,6 +58,7 @@ public class GameManager : Singleton<GameManager> {
           OnAcknowledge = null;
         };
       }
+      Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
     }
   }
   public HoleDefn CurrentHole() {
@@ -107,6 +108,7 @@ public class GameManager : Singleton<GameManager> {
 
   private void Puck_AnyAction() {
     OverlayText.text = "";
+    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
   }
 
   private void Puck_Next(int nextDirn) {
@@ -165,9 +167,11 @@ Press Enter for Next";
 this Evening's Course
 
 Press Enter to End";
-        //TODO: main screen
+
+        HoleIndex = 0; //to the main screen again
       }
     }
+    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
   }
 
   private void Puck_TakeShot(Ball obj) {

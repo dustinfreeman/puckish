@@ -4,6 +4,15 @@ public class HUD : MonoBehaviour {
   [SerializeField]
   GameObject DistantTargetHUD;
 
+  private bool _showTargetHUD = true;
+  public bool ShowTargetHUD {
+    get { return _showTargetHUD; }
+    set {
+      _showTargetHUD = value;
+      DistantTargetHUD.SetActive(_showTargetHUD);
+    }
+  }
+
   void FixedUpdate() {
     string hudString = "";
     Vector3 closestHit = transform.position + (transform.forward * 10000);
@@ -37,6 +46,8 @@ public class HUD : MonoBehaviour {
     //  hudString = hit.collider.name;
     //  closestHit = hit.point;
     //}
+
+    if (!ShowTargetHUD) { hudString = ""; }
 
     DistantTargetHUD.SetActive(hudString.Length > 0);
     if (hudString.Length > 0) {
