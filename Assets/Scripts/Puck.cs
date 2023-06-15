@@ -30,7 +30,8 @@ public class Puck : Singleton<Puck> {
   [Header("Internal Objects")]
   [SerializeField]
   GameObject CueStick;
-
+  [SerializeField]
+  TMPro.TextMeshProUGUI CurrentBallHUD;
   [SerializeField]
   AudioSource CueHitSFX;
 
@@ -47,6 +48,9 @@ public class Puck : Singleton<Puck> {
     set {
       _currentBall = value;
       CanTakeShot = (bool)_currentBall;
+
+      CurrentBallHUD.text = _currentBall ? CurrentBall.name : "";
+
       if (!_currentBall) { return; }
       Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
       SetViewpoint(_currentBall.transform);
@@ -93,8 +97,9 @@ public class Puck : Singleton<Puck> {
   public event Action PuckAcknowledges;
   public event Action<int> Next;
 
-  private void Start() {
-    //CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
+  protected void Awake() {
+    base.Awake();
+    CurrentBall = null;
   }
 
   void ChooseNextBall(int dirn) {

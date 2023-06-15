@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour {
   [SerializeField]
-  GameObject HudPlane;
+  GameObject DistantTargetHUD;
 
   void FixedUpdate() {
     string hudString = "";
@@ -38,11 +38,10 @@ public class HUD : MonoBehaviour {
     //  closestHit = hit.point;
     //}
 
-    HudPlane.SetActive(hudString.Length > 0);
+    DistantTargetHUD.SetActive(hudString.Length > 0);
     if (hudString.Length > 0) {
-      Debug.LogFormat("closestHit {0}", hudString);
-      HudPlane.transform.SetPositionAndRotation(closestHit, transform.rotation);
-      var text = HudPlane.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+      DistantTargetHUD.transform.SetPositionAndRotation(closestHit, transform.rotation);
+      var text = DistantTargetHUD.GetComponentInChildren<TMPro.TextMeshProUGUI>();
       text.text = hudString;
       float textScale = Mathf.Sqrt((transform.position - closestHit).magnitude);
       text.transform.localScale = Vector3.one * textScale;
