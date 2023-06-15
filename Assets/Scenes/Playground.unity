@@ -33154,17 +33154,17 @@ PrefabInstance:
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9299984
+      value: 0.92999935
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.38
+      value: 10.37
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.2
+      value: 21.220001
       objectReference: {fileID: 0}
     - target: {fileID: 8762286023885395322, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
@@ -33205,7 +33205,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 6968870630891260984}
+      objectReference: {fileID: 1894519282}
     - target: {fileID: 8762286023885395323, guid: 9c489a8547f4d9e4387da15a4ff82c81,
         type: 3}
       propertyPath: m_Lens.NearClipPlane
@@ -55883,6 +55883,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6949436135539839845}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1894519281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1894519282}
+  m_Layer: 0
+  m_Name: CameraRootElevated
+  m_TagString: CinemachineTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1894519282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894519281}
+  m_LocalRotation: {x: 0.28058293, y: 0, z: 0, w: 0.95982987}
+  m_LocalPosition: {x: 0, y: 10.37, z: -9.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2669417917042962398}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 32.59, y: 0, z: 0}
 --- !u!4 &1896543709 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8718778828885884488, guid: e5f4daf24146ee040b5a2d7a73b30aa0,
@@ -68076,6 +68107,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6968870630891260984}
+  - {fileID: 1894519282}
   - {fileID: 1310646317}
   - {fileID: 985896547}
   - {fileID: 1158339994}
@@ -69917,7 +69949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6968870630891260984}
   m_Layer: 0
-  m_Name: PlayerCameraRoot
+  m_Name: CameraRootAtCue
   m_TagString: CinemachineTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71343,8 +71375,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9005220658780557357}
-  m_LocalRotation: {x: 0.14510567, y: -0, z: -0, w: 0.98941624}
-  m_LocalPosition: {x: 0.9299984, y: 2.38, z: 26.2}
+  m_LocalRotation: {x: 0.2805829, y: -0, z: -0, w: 0.9598298}
+  m_LocalPosition: {x: 0.92999935, y: 10.37, z: 21.220001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
