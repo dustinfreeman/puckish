@@ -37,11 +37,19 @@ public class GameManager : Singleton<GameManager> {
 
       var act = Course.Instance.GetActs()[HoleIndex];
       OverlayText.text = act.Description;
+
+      //Hide Target Colliders; will unhide later only ones relevant to hole
+      foreach (var target in targets.Values) {
+        target.GetComponent<MeshRenderer>().enabled = false;
+      }
+
       if (act is HoleDefn) {
         var hole = (HoleDefn)act;
+        foreach (var success in hole.SuccessDefns) {
+          targets[success.Target].GetComponent<MeshRenderer>().enabled = true;
+        }
         foreach (var ballStart in hole.BallStartTransforms) {
-          balls[ballStart.BallName].transform.position = ballStart.StartTransform.position;
-          balls[ballStart.BallName].transform.rotation = ballStart.StartTransform.rotation;
+          balls[ballStart.BallName].transform.SetPositionAndRotation(ballStart.StartTransform.position, ballStart.StartTransform.rotation);
         }
         Puck.Instance.CurrentBall = balls[hole.Ball];
 
