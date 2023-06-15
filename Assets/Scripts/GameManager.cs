@@ -40,13 +40,13 @@ public class GameManager : Singleton<GameManager> {
 
       //Hide Target Colliders; will unhide later only ones relevant to hole
       foreach (var target in targets.Values) {
-        target.GetComponent<MeshRenderer>().enabled = false;
+        target.gameObject.SetActive(false);
       }
 
       if (act is HoleDefn) {
         var hole = (HoleDefn)act;
         foreach (var success in hole.SuccessDefns) {
-          targets[success.Target].GetComponent<MeshRenderer>().enabled = true;
+          targets[success.Target].gameObject.SetActive(true);
         }
         foreach (var ballStart in hole.BallStartTransforms) {
           balls[ballStart.BallName].transform.SetPositionAndRotation(ballStart.StartTransform.position, ballStart.StartTransform.rotation);
