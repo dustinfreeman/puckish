@@ -62,8 +62,8 @@ public class GameManager : Singleton<GameManager> {
         OverlayText.text += "\n\n(Press Enter to Continue)";
         OnAcknowledge = () =>
         {
-          HoleIndex += 1;
           OnAcknowledge = null;
+          HoleIndex += 1;
         };
       }
       Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
@@ -130,6 +130,7 @@ public class GameManager : Singleton<GameManager> {
 
   protected System.Action OnAcknowledge;
   private void Puck_PuckAcknowledges() {
+    Debug.Log("Puck_PuckAcknowledges " + OnAcknowledge.ToString());
     OnAcknowledge?.Invoke();
   }
 
@@ -159,9 +160,9 @@ public class GameManager : Singleton<GameManager> {
 Press Enter";
       OnAcknowledge = () =>
       {
+        OnAcknowledge = null;
         Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
         //TODO: set orientation looking from ball to target;
-        OnAcknowledge = null;
       };
     } else { //completed hole
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
@@ -171,8 +172,8 @@ Press Enter";
 Press Enter for Next";
         OnAcknowledge = () =>
         {
-          HoleIndex += 1;
           OnAcknowledge = null;
+          HoleIndex += 1;
         };
       } else {
         OverlayText.text = @"You have finished
@@ -189,7 +190,6 @@ Press Enter to End";
   private void Puck_TakeShot(Ball obj) {
     Puck.Instance.CanTakeShot = false;
     ShotsTakenThisHole++;
-    Debug.Log("Shots shots shots shots");
   }
 
 }
