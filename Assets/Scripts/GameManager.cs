@@ -39,6 +39,7 @@ public class GameManager : ObjectRegistry {
           targets[success.Target].gameObject.SetActive(true);
 
           var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
+          questUI.State = OneQuest.QuestState.None;
           questUI.gameObject.SetActive(true);
           questUI.text.text = success.Description();
         }
@@ -123,13 +124,30 @@ public class GameManager : ObjectRegistry {
     return string.Format("Shots Taken: {0}  Par: {1}\n", ShotsTakenThisHole, CurrentHole().Par);
   }
 
+  protected void Update() {
+    UpdateQuestUI();
+  }
+
+  void UpdateQuestUI() {
+    var hole = CurrentHole();
+    if (!hole) {
+      return;
+    }
+    for (int i = 0; i < hole.SuccessDefns.Length; i++) {
+      var successDefn = hole.SuccessDefns[i];
+      var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
+
+      questUI.State = TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject) ?
+        OneQuest.QuestState.Passed : OneQuest.QuestState.None;
+    }
+  }
+
   private void AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
 
     if (!CurrentHole()) {
       return;
     }
-
     bool success = true;
     foreach (var successDefn in CurrentHole().SuccessDefns) {
       if (!TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject)) {
