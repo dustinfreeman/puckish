@@ -59,6 +59,7 @@ public class GameManager : Singleton<GameManager> {
       } else { //Simple Inter-Act Screen
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
+        //TODO: total par, strokes.
         OverlayText.text += string.Format("\n\n(Press Enter to {0})",
           HoleIndex < Course.Instance.GetActs().Length - 1 ? "Continue" : "Restart Game");
         OnAcknowledge = () =>
@@ -131,7 +132,7 @@ public class GameManager : Singleton<GameManager> {
 
   protected System.Action OnAcknowledge;
   private void Puck_PuckAcknowledges() {
-    Debug.Log("Puck_PuckAcknowledges " + OnAcknowledge?.ToString());
+    //Debug.Log("Puck_PuckAcknowledges " + OnAcknowledge?.ToString());
     OnAcknowledge?.Invoke();
   }
 
@@ -177,11 +178,11 @@ Press Enter for Next";
           HoleIndex += 1;
         };
       } else {
+        //HACK: only used if there isn't a final Act screen
         OverlayText.text = @"You have finished
 this Evening's Course
 
 Press Enter to End";
-
         HoleIndex = 0; //to the main screen again
       }
     }
