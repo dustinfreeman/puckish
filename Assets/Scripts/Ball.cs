@@ -8,7 +8,7 @@ public class Ball : MonoBehaviour {
   float[] oofs = { 115.9f, 117.7f, 120.0f, 122.7f };
 
   protected void Awake() {
-    GameManager.RegisterBall(this);
+    ObjectRegistry.RegisterBall(this);
     barks = GetComponent<AudioSource>();
   }
 

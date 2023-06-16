@@ -1,33 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager> {
+public class GameManager : ObjectRegistry {
   [SerializeField]
   TMPro.TextMeshPro OverlayText;
   [SerializeField]
   GameObject QuestParent;
   [SerializeField]
   AudioSource HoleStartSFX;
-
-  readonly static Dictionary<string, TargetCollider> targets = new Dictionary<string, TargetCollider>();
-  public static void RegisterTarget(TargetCollider target) {
-    if (targets.ContainsKey(target.name)) {
-      Debug.LogErrorFormat("Found Duplicate Target Name: {0}", target.name);
-      return;
-    }
-    targets.Add(target.name, target);
-  }
-
-  readonly static Dictionary<string, Ball> balls = new Dictionary<string, Ball>();
-  public static void RegisterBall(Ball ball) {
-    if (balls.ContainsKey(ball.name)) {
-      Debug.LogErrorFormat("Found Duplicate Ball Name: {0}", ball.name);
-      return;
-    }
-    balls.Add(ball.name, ball);
-  }
 
   protected int ShotsTakenThisHole = 0;
 
@@ -92,33 +73,9 @@ public class GameManager : Singleton<GameManager> {
     return null;
   }
 
-  void SanityCheckCourse() {
-    foreach (var act in Course.Instance.GetActs()) {
-      if (!(act is HoleDefn)) {
-        continue;
-      }
-      var hole = (HoleDefn)act;
-      if (!balls.ContainsKey(hole.Ball)) {
-        Debug.LogErrorFormat("{1}: Missing Ball with name {0}", hole.Ball, hole.name);
-      }
-      foreach (var ballStart in hole.BallStartTransforms) {
-        if (!balls.ContainsKey(ballStart.BallName)) {
-          Debug.LogErrorFormat("{1}: Missing Ball with name {0}", ballStart.BallName, hole.name);
-        }
-      }
-      foreach (var successDefn in hole.SuccessDefns) {
-        if (!balls.ContainsKey(successDefn.BallName)) {
-          Debug.LogErrorFormat("{1}: Missing Ball with name {0}", successDefn.BallName, hole.name);
-        }
-        if (!targets.ContainsKey(successDefn.Target)) {
-          Debug.LogErrorFormat("{1}: Missing Target with name {0}", successDefn.Target, hole.name);
-        }
-      }
-    }
-  }
 
   void Start() {
-    SanityCheckCourse();
+    SanityCheckCourse(Course.Instance.GetActs());
 
     Puck.Instance.TakeShot += Puck_TakeShot;
     Puck.Instance.AnyAction += Puck_AnyAction;

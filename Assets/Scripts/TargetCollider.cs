@@ -9,7 +9,7 @@ public class TargetCollider : MonoBehaviour {
   }
 
   protected void Awake() {
-    GameManager.RegisterTarget(this);
+    ObjectRegistry.RegisterTarget(this);
 
     if (!GetComponent<Collider>().isTrigger) {
       Debug.LogErrorFormat("My Collider should be isTrigger, but it is not: {0}", gameObject.name);
