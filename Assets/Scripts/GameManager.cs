@@ -56,14 +56,15 @@ public class GameManager : Singleton<GameManager> {
         if (hole.Par > 0) {
           OverlayText.text += string.Format("\n\nPar: {0}", hole.Par);
         }
-      } else {
+      } else { //Simple Inter-Act Screen
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
-        OverlayText.text += "\n\n(Press Enter to Continue)";
+        OverlayText.text += string.Format("\n\n(Press Enter to {0})",
+          HoleIndex < Course.Instance.GetActs().Length - 1 ? "Continue" : "Restart Game");
         OnAcknowledge = () =>
         {
           OnAcknowledge = null;
-          HoleIndex += 1;
+          HoleIndex = Utils.WrapClamp(HoleIndex, +1, Course.Instance.GetActs().Length);
         };
       }
       Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
