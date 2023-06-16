@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -144,13 +145,27 @@ public class GameManager : ObjectRegistry {
     }
   }
 
-  void Gaffe(string gaffe = "") {
-    Gaffer.SubText.text = gaffe;
-    Gaffer.gameObject.SetActive(gaffe.Length > 0);
+  void DetectedGaffe(Gaffe gaffe) {
+    Gaffer.SubText.text = gaffe.Message + "\nPress Enter to Continue";
     balls[CurrentHole().Ball].PlayBark(BarkType.gaffe);
+    Gaffer.gameObject.SetActive(true);
 
-    //TODO: player deals with consequences
+    OnAcknowledge = () =>
+    {
+      OnAcknowledge = null;
+      Gaffer.gameObject.SetActive(false);
+      //HACK: just continue along
+      Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
+    };
   }
+
+  Gaffe[] StandardGaffes = new Gaffe[]
+  {
+    new Gaffe() {
+      Check = (List<Interaction> Interactions) => { return Interactions.Count == 0;  },
+      Message = "You didn't go anywhere or talk to anyone!\nSo awkward!!"
+    }
+  };
 
   private void AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
@@ -160,27 +175,25 @@ public class GameManager : ObjectRegistry {
     Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
 
     //Check Interaction Registry for Gaffes!
-    if (InteractionRegistry.Interactions.Count == 0) {
-      Gaffe("You didn't go anywhere or talk to anyone!\nSo awkward!!");
-
-      OnAcknowledge = () =>
-      {
-        OnAcknowledge = null;
-        Gaffe();
-
-        //HACK: just continue along
-        Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
-      };
+    bool gaffed = false;
+    foreach (var gaffe in StandardGaffes) {
+      if (gaffe.Check(InteractionRegistry.Interactions)) {
+        gaffed = true;
+        DetectedGaffe(gaffe);
+        break;
+      }
+    }
+    if (gaffed) {
       return;
     }
 
+    //Conventional End-Hole Behaviour: Success, Next Turn, or End of Course
     bool successHole = true;
     foreach (var successDefn in CurrentHole().SuccessDefns) {
       if (!TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject)) {
         successHole = false;
       }
     }
-
     if (!successHole) {
       OverlayText.text = ParDisplay() + @"Take Next Shot?
 Press Enter";

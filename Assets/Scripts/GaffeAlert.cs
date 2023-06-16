@@ -5,6 +5,6 @@ public class GaffeAlert : MonoBehaviour {
   public TMPro.TextMeshPro SubText;
 
   private void Start() {
-    gameObject.SetActive(false);
+    //gameObject.SetActive(false);
   }
 }
