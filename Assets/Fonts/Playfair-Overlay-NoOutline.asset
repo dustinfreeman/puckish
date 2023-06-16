@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Playfair-VariableFont_opsz,wdth,wght SDF
+  m_Name: Playfair-Overlay-NoOutline
   m_EditorClassIdentifier: 
-  hashCode: 1506410299
+  hashCode: -1932721629
   material: {fileID: 6020056996335220552}
-  materialHashCode: -817027013
+  materialHashCode: -1902010845
   m_Version: 1.1.0
   m_SourceFontFileGUID: 2d74571e8d9801749a1ae79b646878be
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 2d74571e8d9801749a1ae79b646878be,
@@ -2711,8 +2711,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - UNDERLAY_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -2771,7 +2770,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0.38
+    - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333

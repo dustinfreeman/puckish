@@ -5,6 +5,8 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField]
   TMPro.TextMeshPro OverlayText;
   [SerializeField]
+  GameObject QuestParent;
+  [SerializeField]
   AudioSource HoleStartSFX;
 
   readonly static Dictionary<string, TargetCollider> targets = new Dictionary<string, TargetCollider>();
@@ -41,6 +43,10 @@ public class GameManager : Singleton<GameManager> {
       //Hide Target Colliders; will unhide later only ones relevant to hole
       foreach (var target in targets.Values) {
         target.gameObject.SetActive(false);
+      }
+      //Hide Quests
+      foreach (var quest in QuestParent.GetComponentsInChildren<OneQuest>()) {
+        quest.gameObject.SetActive(false);
       }
 
       if (act is HoleDefn) {
