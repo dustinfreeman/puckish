@@ -10,14 +10,8 @@ public class TargetCollider : MonoBehaviour {
 
   protected void Awake() {
     ObjectRegistry.RegisterTarget(this);
-
     if (!GetComponent<Collider>().isTrigger) {
       Debug.LogErrorFormat("My Collider should be isTrigger, but it is not: {0}", gameObject.name);
     }
   }
-
-  private void Update() {
-    //Debug.Log(DoCollidersOverlap(Puck.Instance.CurrentBall.gameObject, gameObject));
-  }
-
 }

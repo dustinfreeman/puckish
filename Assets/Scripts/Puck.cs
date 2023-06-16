@@ -148,7 +148,6 @@ public class Puck : Singleton<Puck> {
       CueHitSFX.PlayOneShot(CueHitSFX.clip);
       this.TakeShot(CurrentBall);
       CurrentBall = null;
-
     }
     if (!PreparingCueShot && value.isPressed) {
       //start pulling back

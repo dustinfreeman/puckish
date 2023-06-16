@@ -18,10 +18,29 @@ public class Ball : MonoBehaviour {
     rb.angularVelocity = Vector3.zero;
   }
 
+  void InteractedWith(Collider other) {
+    //Debug.LogFormat("InteractedWith! Time: {0}\tBall:{1}\tOther:{2}", Time.time, gameObject, other);
+    InteractionType interactionType;
+    if (other.GetComponent<Ball>()) {
+      interactionType = InteractionType.BallBall;
+    } else if (other.GetComponent<TargetCollider>()) {
+      interactionType = InteractionType.BallTarget;
+    } else {
+      interactionType = InteractionType.BallWall;
+    }
+    InteractionRegistry.Interactions.Add(new Interaction { ball = this, time = Time.time, other = other.name, type = interactionType });
+  }
+
   private void OnCollisionEnter(Collision collision) {
+    InteractedWith(collision.collider);
+
     var otherBall = collision.collider.GetComponent<Ball>();
     if (!otherBall) return;
     PlayBark(Utils.ChooseRandom(oofs));
+  }
+
+  private void OnTriggerEnter(Collider other) {
+    InteractedWith(other);
   }
 
   void PlayBark(float startTime) {

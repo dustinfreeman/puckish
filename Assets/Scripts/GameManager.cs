@@ -8,6 +8,8 @@ public class GameManager : ObjectRegistry {
   [SerializeField]
   GameObject QuestParent;
   [SerializeField]
+  GaffeAlert Gaffer;
+  [SerializeField]
   AudioSource HoleStartSFX;
 
   protected int ShotsTakenThisHole = 0;
@@ -142,20 +144,43 @@ public class GameManager : ObjectRegistry {
     }
   }
 
+  void Gaffe(string gaffe = "") {
+    Gaffer.SubText.text = gaffe;
+    Gaffer.gameObject.SetActive(gaffe.Length > 0);
+
+    //TODO: player deals with consequences
+  }
+
   private void AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
-
     if (!CurrentHole()) {
       return;
     }
-    bool success = true;
+    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
+
+    //Check Interaction Registry for Gaffes!
+    if (InteractionRegistry.Interactions.Count == 0) {
+      Gaffe("You didn't do anything at all! So awkward!");
+
+      OnAcknowledge = () =>
+      {
+        OnAcknowledge = null;
+        Gaffe();
+
+        //HACK: just continue along
+        Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
+      };
+      return;
+    }
+
+    bool successHole = true;
     foreach (var successDefn in CurrentHole().SuccessDefns) {
       if (!TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject)) {
-        success = false;
+        successHole = false;
       }
     }
 
-    if (!success) {
+    if (!successHole) {
       OverlayText.text = ParDisplay() + @"Take Next Shot?
 Press Enter";
       OnAcknowledge = () =>
@@ -184,10 +209,10 @@ Press Enter to End";
         HoleIndex = 0; //to the main screen again
       }
     }
-    Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
   }
 
   private void Puck_TakeShot(Ball obj) {
+    InteractionRegistry.Interactions.Clear();
     Puck.Instance.CanTakeShot = false;
     ShotsTakenThisHole++;
     skipNextAllBallsStopped = false;
