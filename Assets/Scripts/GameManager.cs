@@ -147,6 +147,7 @@ public class GameManager : ObjectRegistry {
   void Gaffe(string gaffe = "") {
     Gaffer.SubText.text = gaffe;
     Gaffer.gameObject.SetActive(gaffe.Length > 0);
+    balls[CurrentHole().Ball].PlayBark(BarkType.gaffe);
 
     //TODO: player deals with consequences
   }
@@ -190,6 +191,8 @@ Press Enter";
         //TODO: set orientation looking from ball to target;
       };
     } else { //completed hole
+      balls[CurrentHole().Ball].PlayBark(BarkType.laughing);
+
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
 
       if (HoleIndex < Course.Instance.GetActs().Length - 1) {

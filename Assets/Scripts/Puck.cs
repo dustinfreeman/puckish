@@ -52,6 +52,7 @@ public class Puck : Singleton<Puck> {
 
       if (!_currentBall) { return; }
       Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
+      CurrentBall.PlayBark(BarkType.turn_start);
       SetViewpoint(_currentBall.transform);
     }
   }

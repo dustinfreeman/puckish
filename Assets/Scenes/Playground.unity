@@ -7567,7 +7567,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2367a14e0cf27ec4da1d06dc73dadffc, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.088
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -18220,6 +18220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 858374101}
+  - component: {fileID: 858374102}
   m_Layer: 0
   m_Name: BallParent
   m_TagString: Untagged
@@ -18252,6 +18253,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858374102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858374100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b138943e8a061408047d7d6336d676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VoiceArchetypes:
+  - archetype: butler
+    clip: {fileID: 8300000, guid: 2169e2b6f85fbce47ab1670d36461311, type: 3}
+  - archetype: gruff_man
+    clip: {fileID: 8300000, guid: ad271beb42c5603488f36fb5163ba52a, type: 3}
+  - archetype: refined_man
+    clip: {fileID: 8300000, guid: 5fa96d8cd3dc77a4e8da77c7117d69be, type: 3}
+  - archetype: refined_woman
+    clip: {fileID: 8300000, guid: 2d366459854fd5f43b6baf2e7d00f3dc, type: 3}
+  - archetype: stranger
+    clip: {fileID: 8300000, guid: d6a2cddf44dd37c45981aa9a3140f1ca, type: 3}
+  - archetype: youth
+    clip: {fileID: 8300000, guid: 99ff09da10d759140b9de2f3b28380ba, type: 3}
 --- !u!1 &867267855
 GameObject:
   m_ObjectHideFlags: 0
@@ -42545,7 +42571,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3b1676182437f394c856c55ee1284e4e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.539
+  m_Volume: 0.14
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -58250,7 +58276,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -42.890015}
+  m_AnchoredPosition: {x: 0, y: -42.89}
   m_SizeDelta: {x: 0, y: -85.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1920994578
@@ -71167,7 +71193,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2ae1dbb6afd752343b93c089616138c7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.299
   m_Pitch: 1
   Loop: 0
   Mute: 0

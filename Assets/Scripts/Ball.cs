@@ -2,14 +2,20 @@ using System.Collections;
 using UnityEngine;
 
 
-
 public class Ball : MonoBehaviour {
-  AudioSource barks;
-  float[] oofs = { 115.9f, 117.7f, 120.0f, 122.7f };
+  [SerializeField]
+  string VoiceArchetype;
+  AudioSource barksSource;
+  BarksDefn barks;
 
   protected void Awake() {
     ObjectRegistry.RegisterBall(this);
-    barks = GetComponent<AudioSource>();
+  }
+
+  private void Start() {
+    barksSource = GetComponent<AudioSource>();
+    barks = Voices.Instance.GetBarks(VoiceArchetype);
+    barksSource.clip = barks.voice.clip;
   }
 
   public void StopMotion() {
@@ -36,22 +42,38 @@ public class Ball : MonoBehaviour {
 
     var otherBall = collision.collider.GetComponent<Ball>();
     if (!otherBall) return;
-    PlayBark(Utils.ChooseRandom(oofs));
+
+    if (GetComponent<Rigidbody>().velocity.magnitude >
+      otherBall.GetComponent<Rigidbody>().velocity.magnitude) {
+      //I have greater velocity, thereform I am doing the hitting
+      PlayBark(BarkType.hits);
+    } else {
+      PlayBark(BarkType.hit_by);
+    }
+
   }
 
   private void OnTriggerEnter(Collider other) {
     InteractedWith(other);
   }
 
-  void PlayBark(float startTime) {
+  public void PlayBark(BarkType type) {
+    float[] barkOptions = barks.barkOptionTimes[type];
+    if (barkOptions.Length == 0) {
+      Debug.LogErrorFormat("{0} did not have a bark option for {1}", name, type);
+    }
+    PlaySpecificBark(Utils.ChooseRandom(barkOptions));
+  }
+
+  void PlaySpecificBark(float startTime) {
     StartCoroutine(PlayingBark(startTime));
   }
 
   IEnumerator PlayingBark(float startTime) {
-    barks.time = startTime;
-    barks.Play();
+    barksSource.time = startTime;
+    barksSource.Play();
     yield return new WaitForSeconds(1.5f);
-    barks.Pause();
+    barksSource.Pause();
   }
 }
 
