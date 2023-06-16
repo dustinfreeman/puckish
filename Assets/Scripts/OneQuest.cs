@@ -23,7 +23,7 @@ public class OneQuest : MonoBehaviour {
     }
   }
 
-  private void Start() {
+  private void Awake() {
     State = QuestState.None;
     text.text = "";
   }
