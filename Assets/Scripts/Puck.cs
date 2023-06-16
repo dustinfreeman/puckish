@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,7 +24,7 @@ public class Puck : Singleton<Puck> {
 
   [Header("Scene Objects")]
   [SerializeField]
-  GameObject BallParent;
+  public GameObject BallParent;
 
   [Header("Internal Objects")]
   [SerializeField]
@@ -92,7 +91,6 @@ public class Puck : Singleton<Puck> {
   }
 
   public event Action<Ball> TakeShot;
-  public event Action AllBallsStopped;
   public event Action AnyAction;
   public event Action PuckAcknowledges;
   public event Action<int> Next;
@@ -150,7 +148,7 @@ public class Puck : Singleton<Puck> {
       CueHitSFX.PlayOneShot(CueHitSFX.clip);
       this.TakeShot(CurrentBall);
       CurrentBall = null;
-      StartCoroutine(WaitAllBallsStoppedMoving());
+
     }
     if (!PreparingCueShot && value.isPressed) {
       //start pulling back
@@ -186,29 +184,4 @@ public class Puck : Singleton<Puck> {
     var currentYawRate = preciseYaw ? preciseYawRate : yawRate;
     transform.eulerAngles -= Vector3.up * yawing * currentYawRate * Time.deltaTime;
   }
-
-  IEnumerator WaitAllBallsStoppedMoving() {
-    yield return new WaitForSeconds(0.5f);
-
-    Func<bool> allBallsStoppedMoving = () =>
-    {
-      var rbs = BallParent.GetComponentsInChildren<Ball>().Select(ball => ball.GetComponent<Rigidbody>());
-      var awakeRBs =
-        //https://docs.unity3d.com/Manual/RigidbodiesOverview.html
-        rbs.Where(rb => !rb.IsSleeping());
-
-      return awakeRBs.Count() == 0;
-    };
-
-    while (true) {
-      yield return null;
-      if (allBallsStoppedMoving()) {
-        break;
-      }
-    }
-
-    Debug.Log("All Balls Stopped Moving");
-    AllBallsStopped();
-  }
-
 }

@@ -12,6 +12,12 @@ public class Ball : MonoBehaviour {
     barks = GetComponent<AudioSource>();
   }
 
+  public void StopMotion() {
+    var rb = GetComponent<Rigidbody>();
+    rb.velocity = Vector3.zero;
+    rb.angularVelocity = Vector3.zero;
+  }
+
   private void OnCollisionEnter(Collision collision) {
     var otherBall = collision.collider.GetComponent<Ball>();
     if (!otherBall) return;

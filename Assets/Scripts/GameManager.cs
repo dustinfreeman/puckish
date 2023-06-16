@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager> {
@@ -115,7 +117,6 @@ public class GameManager : Singleton<GameManager> {
 
     Puck.Instance.TakeShot += Puck_TakeShot;
     Puck.Instance.AnyAction += Puck_AnyAction;
-    Puck.Instance.AllBallsStopped += Puck_AllBallsStopped;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
     Puck.Instance.Next += Puck_Next;
 
@@ -131,9 +132,20 @@ public class GameManager : Singleton<GameManager> {
     Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
   }
 
+  bool skipNextAllBallsStopped = false;
   private void Puck_Next(int nextDirn) {
-    Debug.Log("Puck says next hole " + nextDirn);
-    HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetActs().Length);
+    if (AreAnyBallsMoving()) {
+      foreach (var ball in balls.Values) {
+        ball.StopMotion();
+      }
+    } else {
+      Debug.Log("Puck says next hole " + nextDirn);
+      HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetActs().Length);
+      skipNextAllBallsStopped = true;
+      foreach (var ball in balls.Values) {
+        ball.StopMotion();
+      }
+    }
   }
 
   protected System.Action OnAcknowledge;
@@ -149,7 +161,7 @@ public class GameManager : Singleton<GameManager> {
     return string.Format("Shots Taken: {0}  Par: {1}\n", ShotsTakenThisHole, CurrentHole().Par);
   }
 
-  private void Puck_AllBallsStopped() {
+  private void AllBallsStopped() {
     //Debug.Log("Game Manager: Stop Stop Stop");
 
     if (!CurrentHole()) {
@@ -198,6 +210,33 @@ Press Enter to End";
   private void Puck_TakeShot(Ball obj) {
     Puck.Instance.CanTakeShot = false;
     ShotsTakenThisHole++;
+    skipNextAllBallsStopped = false;
+    StartCoroutine(WaitAllBallsStoppedMoving());
   }
 
+  bool AreAnyBallsMoving() {
+    var rbs = Puck.Instance.BallParent.GetComponentsInChildren<Ball>().Select(ball => ball.GetComponent<Rigidbody>());
+    var awakeRBs =
+      //https://docs.unity3d.com/Manual/RigidbodiesOverview.html
+      rbs.Where(rb => !rb.IsSleeping());
+
+    return awakeRBs.Count() > 0;
+  }
+
+  IEnumerator WaitAllBallsStoppedMoving() {
+    yield return new WaitForSeconds(0.5f);
+
+    while (true) {
+      yield return null;
+      if (!AreAnyBallsMoving()) {
+        break;
+      }
+    }
+
+    if (!skipNextAllBallsStopped) {
+      Debug.Log("All Balls Stopped Moving");
+      AllBallsStopped();
+    }
+    skipNextAllBallsStopped = false;
+  }
 }
