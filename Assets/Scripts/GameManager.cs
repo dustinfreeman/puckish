@@ -163,7 +163,7 @@ public class GameManager : ObjectRegistry {
   {
     new Gaffe() {
       Check = (List<Interaction> Interactions) => { return Interactions.Count == 0;  },
-      Message = "You didn't go anywhere or talk to anyone!\nSo awkward!!"
+      Message = "You didn't talk to anyone or even lean on a wall!\nSo awkward!!"
     }
   };
 

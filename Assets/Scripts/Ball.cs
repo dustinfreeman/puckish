@@ -50,7 +50,6 @@ public class Ball : MonoBehaviour {
     } else {
       PlayBark(BarkType.hit_by);
     }
-
   }
 
   private void OnTriggerEnter(Collider other) {
@@ -62,17 +61,29 @@ public class Ball : MonoBehaviour {
     if (barkOptions.Length == 0) {
       Debug.LogErrorFormat("{0} did not have a bark option for {1}", name, type);
     }
-    PlaySpecificBark(Utils.ChooseRandom(barkOptions));
+
+    float duration;
+    switch (type) {
+      case BarkType.hits:
+      case BarkType.hit_by:
+        duration = 1.5f;
+        break;
+      default:
+        duration = 3.0f;
+        break;
+    }
+
+    PlaySpecificBark(Utils.ChooseRandom(barkOptions), duration);
   }
 
-  void PlaySpecificBark(float startTime) {
-    StartCoroutine(PlayingBark(startTime));
+  void PlaySpecificBark(float startTime, float duration = 2.0f) {
+    StartCoroutine(PlayingBark(startTime, duration));
   }
 
-  IEnumerator PlayingBark(float startTime) {
+  IEnumerator PlayingBark(float startTime, float duration = 2.0f) {
     barksSource.time = startTime;
     barksSource.Play();
-    yield return new WaitForSeconds(1.5f);
+    yield return new WaitForSeconds(duration);
     barksSource.Pause();
   }
 }

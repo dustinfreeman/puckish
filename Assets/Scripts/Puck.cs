@@ -118,6 +118,10 @@ public class Puck : Singleton<Puck> {
   }
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+  public void OnExit() {
+    Application.Quit();
+  }
+
   public void OnMove(InputValue value) {
     PreparingCueShot = false;
 
