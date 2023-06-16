@@ -160,7 +160,7 @@ public class GameManager : ObjectRegistry {
 
     //Check Interaction Registry for Gaffes!
     if (InteractionRegistry.Interactions.Count == 0) {
-      Gaffe("You didn't do anything at all! So awkward!");
+      Gaffe("You didn't go anywhere or talk to anyone!\nSo awkward!!");
 
       OnAcknowledge = () =>
       {
