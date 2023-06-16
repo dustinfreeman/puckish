@@ -131,7 +131,7 @@ public class GameManager : Singleton<GameManager> {
 
   protected System.Action OnAcknowledge;
   private void Puck_PuckAcknowledges() {
-    Debug.Log("Puck_PuckAcknowledges " + OnAcknowledge.ToString());
+    Debug.Log("Puck_PuckAcknowledges " + OnAcknowledge?.ToString());
     OnAcknowledge?.Invoke();
   }
 
