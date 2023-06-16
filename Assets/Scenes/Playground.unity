@@ -9355,7 +9355,7 @@ GameObject:
   - component: {fileID: 494969430}
   - component: {fileID: 494969429}
   m_Layer: 0
-  m_Name: DisruptingDinner
+  m_Name: The Middle of Dinner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36573,7 +36573,7 @@ MonoBehaviour:
     StartTransform: {fileID: 380719181}
   SuccessDefns:
   - BallName: The Stranger
-    Target: DisruptingDinner
+    Target: The Middle of Dinner
   Par: 1
 --- !u!1001 &1330662487
 PrefabInstance:
@@ -58012,7 +58012,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -42.89}
+  m_AnchoredPosition: {x: 0, y: -42.890015}
   m_SizeDelta: {x: 0, y: -85.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1920994578

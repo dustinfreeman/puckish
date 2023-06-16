@@ -9,7 +9,7 @@ public class OneQuest : MonoBehaviour {
   }
 
   [SerializeField]
-  TMPro.TextMeshProUGUI text;
+  public TMPro.TextMeshProUGUI text;
 
   [SerializeField]
   GameObject CheckPassed;

@@ -11,6 +11,10 @@ public struct BallStartTransform {
 public struct SuccessDefn {
   public string BallName;
   public string Target;
+
+  public string Description() {
+    return string.Format("Get {0} into {1}", BallName, Target);
+  }
 }
 
 public class HoleDefn : Act {

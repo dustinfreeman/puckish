@@ -53,8 +53,13 @@ public class GameManager : Singleton<GameManager> {
 
       if (act is HoleDefn) {
         var hole = (HoleDefn)act;
-        foreach (var success in hole.SuccessDefns) {
+        for (int i = 0; i < hole.SuccessDefns.Length; i++) {
+          var success = hole.SuccessDefns[i];
           targets[success.Target].gameObject.SetActive(true);
+
+          var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
+          questUI.gameObject.SetActive(true);
+          questUI.text.text = success.Description();
         }
         foreach (var ballStart in hole.BallStartTransforms) {
           balls[ballStart.BallName].transform.SetPositionAndRotation(ballStart.StartTransform.position, ballStart.StartTransform.rotation);
