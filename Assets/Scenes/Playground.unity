@@ -16652,7 +16652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.9999695, y: 195}
+  m_AnchoredPosition: {x: -12, y: 195}
   m_SizeDelta: {x: -33.789978, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &724128684
@@ -20182,9 +20182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Let us start with basic exercises...\n\rGet me into the Grove\n\nPress
-    A or W to Rotate your Aim\r\nPress Spacebar for a light tap. \nHold longer to
-    hit more strongly\r"
+  Description: "Let us start with basic exercises...\n\rGet me into the Grove\n\nA,D
+    - Rotate your Aim\nShift - Hold to rotate slowly\nSpace - Take shot, hold to
+    charge\r\n"
   StartView: {fileID: 0}
   Ball: Head Butler
   BallStartTransforms:
