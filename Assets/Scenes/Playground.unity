@@ -24005,7 +24005,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1123621260
 Transform:
   m_ObjectHideFlags: 0
@@ -34936,6 +34936,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875378714}
     m_Modifications:
+    - target: {fileID: 5096850158371414815, guid: 9cdaf98efe7c69adca90cde48da559cc,
+        type: 3}
+      propertyPath: editorSettings.activePanel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096850158371414815, guid: 9cdaf98efe7c69adca90cde48da559cc,
+        type: 3}
+      propertyPath: scaleSettings.contentScaleRatio
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096850158371414815, guid: 9cdaf98efe7c69adca90cde48da559cc,
+        type: 3}
+      propertyPath: playerSettings.scaleSettings.contentScaleRatio
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6132178175923897642, guid: 9cdaf98efe7c69adca90cde48da559cc,
         type: 3}
       propertyPath: m_RootOrder
@@ -34944,17 +34959,17 @@ PrefabInstance:
     - target: {fileID: 6132178175923897642, guid: 9cdaf98efe7c69adca90cde48da559cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.6
+      value: 18.7
       objectReference: {fileID: 0}
     - target: {fileID: 6132178175923897642, guid: 9cdaf98efe7c69adca90cde48da559cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6132178175923897642, guid: 9cdaf98efe7c69adca90cde48da559cc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.3
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 6132178175923897642, guid: 9cdaf98efe7c69adca90cde48da559cc,
         type: 3}
@@ -35004,7 +35019,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5096850156648964934, guid: 9cdaf98efe7c69adca90cde48da559cc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1621098922}
   m_SourcePrefab: {fileID: 100100000, guid: 9cdaf98efe7c69adca90cde48da559cc, type: 3}
 --- !u!4 &1274938040 stripped
 Transform:
@@ -44990,6 +45009,56 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1621098919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5096850156648964934, guid: 9cdaf98efe7c69adca90cde48da559cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1274938039}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1621098922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621098919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!43 &1624152741
 Mesh:
   m_ObjectHideFlags: 0
