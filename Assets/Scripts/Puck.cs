@@ -171,14 +171,22 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnSprint(InputValue value) {
-    preciseYaw = value.isPressed;
+    SetPreciseYaw(value.isPressed);
+  }
+
+  public void SetPreciseYaw(bool _preciseYaw) {
+    preciseYaw = _preciseYaw;
   }
 
   public void OnAcknowledge(InputValue value) {
     AnyAction();
     if (value.isPressed) {
-      PuckAcknowledges();
+      Acknowledge();
     }
+  }
+
+  public void Acknowledge() {
+    PuckAcknowledges();
   }
 #endif
 

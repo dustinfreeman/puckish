@@ -3,29 +3,36 @@ using static TiltFive.Input;
 
 public class T5ForPuckish : MonoBehaviour {
 
+  float _prevTriggerDisplacement = 0f;
+  float TRIGGER_MIN_HYSTERESIS = 0.2f;
+  float TRIGGER_MAX_HYSTERESIS = 0.8f;
+
   Vector2 _prevStickTilt = new Vector2(-10, -10);
 
   private void CheckWandInput() {
+    if (TiltFive.Input.GetButtonDown(TiltFive.Input.WandButton.Two)) {
+      Puck.Instance.Acknowledge();
+      return;
+    }
+
     float triggerDisplacement = -1;
     TiltFive.Input.TryGetTrigger(out triggerDisplacement);
-    //Debug.Log("Tilt Five trigger: " + triggerDisplacement);
-    const float TRIGGER_THRESHOLD = 0.9f;
-    //if (triggerDisplacement == TRIGGER_THRESHOLD ||
-    //    triggerDisplacement == 0) {
-    //  //Puck.Instance.OnCueSqueezed(triggerDisplacement == TRIGGER_THRESHOLD);
-    //  return;
-    //}
-
     const WandButton CueButton = TiltFive.Input.WandButton.One;
-    if (TiltFive.Input.GetButtonDown(CueButton)) {
+    if (triggerDisplacement > _prevTriggerDisplacement && triggerDisplacement > TRIGGER_MAX_HYSTERESIS) {
       Puck.Instance.OnCueSqueezed(true);
     }
-    if (TiltFive.Input.GetButtonUp(CueButton)) {
+    if (triggerDisplacement < _prevTriggerDisplacement && triggerDisplacement < TRIGGER_MIN_HYSTERESIS) {
       Puck.Instance.OnCueSqueezed(false);
     }
+    _prevTriggerDisplacement = triggerDisplacement;
     if (TiltFive.Input.GetButton(CueButton)) {
       return; //do not proceed further
     }
+
+    //const WandButton PreciseButton = TiltFive.Input.WandButton.Two;
+    //bool preciseButtonDown = false;
+    //TiltFive.Input.TryGetButtonDown(PreciseButton, out preciseButtonDown);
+    //Puck.Instance.SetPreciseYaw(preciseButtonDown);
 
     Vector2 stickTilt;
     TiltFive.Input.TryGetStickTilt(out stickTilt);
@@ -37,9 +44,5 @@ public class T5ForPuckish : MonoBehaviour {
 
   private void Update() {
     CheckWandInput();
-
-    //if (TiltFive.Input.GetButtonUp(TiltFive.Input.WandButton.Three)) {
-    //  Debug.Log("Tilt Five Down: Three");
-    //}
   }
 }
