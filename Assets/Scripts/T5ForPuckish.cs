@@ -2,6 +2,8 @@ using UnityEngine;
 using static TiltFive.Input;
 
 public class T5ForPuckish : MonoBehaviour {
+  [SerializeField]
+  protected GameObject DebugWandIndicator;
 
   float _prevTriggerDisplacement = 0f;
   float TRIGGER_MIN_HYSTERESIS = 0.2f;
@@ -44,5 +46,15 @@ public class T5ForPuckish : MonoBehaviour {
 
   private void Update() {
     CheckWandInput();
+
+    if (TiltFive.Input.GetWandAvailability()) {
+      Debug.Log(TiltFive.Wand.GetPosition() + " : " + TiltFive.Wand.GetRotation());
+
+      DebugWandIndicator.transform.position = TiltFive.Wand.GetPosition();
+      DebugWandIndicator.transform.rotation = TiltFive.Wand.GetRotation();
+
+      Puck.Instance.transform.eulerAngles = new Vector3(0, DebugWandIndicator.transform.eulerAngles.y, 0);
+    }
+
   }
 }
