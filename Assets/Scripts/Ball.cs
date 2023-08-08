@@ -5,11 +5,14 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
   [SerializeField]
   string VoiceArchetype;
+
   AudioSource barksSource;
   BarksDefn barks;
+  Rigidbody rb;
 
   protected void Awake() {
     ObjectRegistry.RegisterBall(this);
+    rb = GetComponent<Rigidbody>();
   }
 
   private void Start() {
@@ -19,9 +22,9 @@ public class Ball : MonoBehaviour {
   }
 
   public void StopMotion() {
-    var rb = GetComponent<Rigidbody>();
     rb.velocity = Vector3.zero;
     rb.angularVelocity = Vector3.zero;
+    rb.Sleep();
   }
 
   void InteractedWith(Collider other) {
@@ -85,6 +88,12 @@ public class Ball : MonoBehaviour {
     barksSource.Play();
     yield return new WaitForSeconds(duration);
     barksSource.Pause();
+  }
+
+  private void FixedUpdate() {
+    if (rb.angularVelocity.magnitude > 0 && rb.angularVelocity.magnitude < 0.5f) {
+      StopMotion();
+    }
   }
 }
 

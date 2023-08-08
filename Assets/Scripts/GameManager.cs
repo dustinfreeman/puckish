@@ -245,7 +245,7 @@ Press Enter to End";
   }
 
   IEnumerator WaitAllBallsStoppedMoving() {
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(0.3f);
 
     while (true) {
       yield return null;
