@@ -3,21 +3,34 @@ using static TiltFive.Input;
 
 public class T5ForPuckish : MonoBehaviour {
   [SerializeField]
-  protected GameObject GameBoardObject;
+  protected GameManager Manager;
+  [SerializeField]
+  protected TiltFive.GameBoard T5GameBoard;
 
   [SerializeField]
   protected GameObject DebugWandIndicator;
 
   protected void Start() {
-    Puck.Instance.ViewpointSet += Instance_ViewpointSet;
+    Puck.Instance.ViewpointSet += ViewpointSet;
   }
 
-  private void Instance_ViewpointSet(Transform puckViewpoint) {
-    GameBoardObject.transform.position = new Vector3(
-      puckViewpoint.position.x,
+  private void ViewpointSet(Transform transform) {
+    Vector3 position = transform.position;
+    if (Manager.CurrentHole()) {
+      int meanCount = 1;
+      foreach (var success in Manager.CurrentHole().SuccessDefns) {
+        position += Manager.GetTarget(success.Target).transform.position;
+        meanCount++;
+      }
+      position.Scale(Vector3.one * 1.0f / meanCount);
+    }
+
+    T5GameBoard.transform.position = new Vector3(
+      position.x,
       //don't raise/lower game board
-      GameBoardObject.transform.position.y,
-      puckViewpoint.position.z);
+      T5GameBoard.transform.position.y,
+      position.z);
+
   }
 
   float _prevTriggerDisplacement = 0f;

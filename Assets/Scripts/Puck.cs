@@ -36,9 +36,11 @@ public class Puck : Singleton<Puck> {
 
   public event Action<Transform> ViewpointSet;
   public void SetViewpoint(Transform viewpointTransform) {
+    //Called to set where the 2D game's cue should be centered around.
+
     transform.position = viewpointTransform.position +
-  //want to be "on ground"
-  -(Vector3.up * viewpointTransform.localScale.y * 0.5f);
+      //want to be "on ground"
+      -(0.5f * viewpointTransform.localScale.y * Vector3.up);
     transform.eulerAngles = new Vector3(0, viewpointTransform.eulerAngles.y, 0);
 
     ViewpointSet?.Invoke(viewpointTransform);
@@ -149,8 +151,6 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnCueSqueezed(bool isSqueezed) {
-    Debug.Log("OnCueSqueezed " + isSqueezed);
-
     AnyAction();
 
     if (yawing != 0) {

@@ -16819,7 +16819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12, y: 195}
+  m_AnchoredPosition: {x: -11.9999695, y: 195}
   m_SizeDelta: {x: -33.789978, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &724128684
@@ -34616,7 +34616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60bf1e48caeaf114789524e137d638fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameBoardObject: {fileID: 1504003929}
+  Manager: {fileID: 325239518}
+  T5GameBoard: {fileID: 1504003931}
   DebugWandIndicator: {fileID: 1659637632}
 --- !u!43 &1256205485
 Mesh:
@@ -42812,12 +42813,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4262532116185456994}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1504003929 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5096850158276147072, guid: ac17611f933f2524b8ee0a5036ffd429,
+--- !u!114 &1504003931 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5096850158276147073, guid: ac17611f933f2524b8ee0a5036ffd429,
     type: 3}
   m_PrefabInstance: {fileID: 198637430}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c75928ed3714ecb8d3d182fe37934a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1506745321
 GameObject:
   m_ObjectHideFlags: 0

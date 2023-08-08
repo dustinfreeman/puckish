@@ -39,7 +39,7 @@ public class GameManager : ObjectRegistry {
         var hole = (HoleDefn)act;
         for (int i = 0; i < hole.SuccessDefns.Length; i++) {
           var success = hole.SuccessDefns[i];
-          targets[success.Target].gameObject.SetActive(true);
+          GetTarget(success.Target).SetActive(true);
 
           var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
           questUI.State = OneQuest.QuestState.None;
