@@ -3,7 +3,22 @@ using static TiltFive.Input;
 
 public class T5ForPuckish : MonoBehaviour {
   [SerializeField]
+  protected GameObject GameBoardObject;
+
+  [SerializeField]
   protected GameObject DebugWandIndicator;
+
+  protected void Start() {
+    Puck.Instance.ViewpointSet += Instance_ViewpointSet;
+  }
+
+  private void Instance_ViewpointSet(Transform puckViewpoint) {
+    GameBoardObject.transform.position = new Vector3(
+      puckViewpoint.position.x,
+      //don't raise/lower game board
+      GameBoardObject.transform.position.y,
+      puckViewpoint.position.z);
+  }
 
   float _prevTriggerDisplacement = 0f;
   float TRIGGER_MIN_HYSTERESIS = 0.2f;
@@ -48,13 +63,12 @@ public class T5ForPuckish : MonoBehaviour {
     CheckWandInput();
 
     if (TiltFive.Input.GetWandAvailability()) {
-      Debug.Log(TiltFive.Wand.GetPosition() + " : " + TiltFive.Wand.GetRotation());
+      //Debug.Log(TiltFive.Wand.GetPosition() + " : " + TiltFive.Wand.GetRotation());
 
       DebugWandIndicator.transform.position = TiltFive.Wand.GetPosition();
       DebugWandIndicator.transform.rotation = TiltFive.Wand.GetRotation();
 
       Puck.Instance.transform.eulerAngles = new Vector3(0, DebugWandIndicator.transform.eulerAngles.y, 0);
     }
-
   }
 }

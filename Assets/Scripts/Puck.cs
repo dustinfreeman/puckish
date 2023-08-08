@@ -34,11 +34,14 @@ public class Puck : Singleton<Puck> {
   [SerializeField]
   AudioSource CueHitSFX;
 
+  public event Action<Transform> ViewpointSet;
   public void SetViewpoint(Transform viewpointTransform) {
     transform.position = viewpointTransform.position +
   //want to be "on ground"
   -(Vector3.up * viewpointTransform.localScale.y * 0.5f);
     transform.eulerAngles = new Vector3(0, viewpointTransform.eulerAngles.y, 0);
+
+    ViewpointSet?.Invoke(viewpointTransform);
   }
 
   private Ball _currentBall = null;
@@ -53,6 +56,7 @@ public class Puck : Singleton<Puck> {
       if (!_currentBall) { return; }
       Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
       CurrentBall.PlayBark(BarkType.turn_start);
+
       SetViewpoint(_currentBall.transform);
     }
   }
