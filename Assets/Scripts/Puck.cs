@@ -105,6 +105,7 @@ public class Puck : Singleton<Puck> {
     if (dirn == 0) {
       return;
     }
+    PreparingCueShot = false;
     if (!CurrentBall) {
       CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
       return;
@@ -123,12 +124,15 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnMove(InputValue value) {
-    PreparingCueShot = false;
-
     var v = value.Get<Vector2>();
     ChooseNextBall((int)v.y);
+    DoYaw(v.x);
+  }
 
-    yawing = v.x;
+  public void DoYaw(float yaw) {
+    Debug.Log("DoYaw " + yaw);
+    PreparingCueShot = false;
+    yawing = yaw;
     AnyAction();
   }
 
@@ -137,16 +141,21 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnJump(InputValue value) {
+    OnCueSqueezed(value.isPressed);
+  }
+
+  public void OnCueSqueezed(bool isSqueezed) {
+    Debug.Log("OnCueSqueezed " + isSqueezed);
+
     AnyAction();
 
     if (yawing != 0) {
       PreparingCueShot = false;
       return;
     }
-
     if (!CanTakeShot) { return; }
 
-    if (PreparingCueShot && !value.isPressed) {
+    if (PreparingCueShot && !isSqueezed) {
       //Hit the ball!
       var rb = CurrentBall.GetComponent<Rigidbody>();
       rb.AddForce(transform.forward * ShotForceCharged);
@@ -154,11 +163,11 @@ public class Puck : Singleton<Puck> {
       this.TakeShot(CurrentBall);
       CurrentBall = null;
     }
-    if (!PreparingCueShot && value.isPressed) {
+    if (!PreparingCueShot && isSqueezed) {
       //start pulling back
       ShotForceCharged = shotForceMin;
     }
-    PreparingCueShot = value.isPressed;
+    PreparingCueShot = isSqueezed;
   }
 
   public void OnSprint(InputValue value) {
