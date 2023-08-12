@@ -13,6 +13,14 @@ public class GameManager : ObjectRegistry {
   [SerializeField]
   AudioSource HoleStartSFX;
 
+  protected string PlatformEnter() {
+    //TiltFive:
+    return "Button 2";
+
+    //TODO detect if not using TiltFive:
+    //return "Enter";
+  }
+
   protected int ShotsTakenThisHole = 0;
 
   private int _holeIndex = 0;
@@ -58,7 +66,8 @@ public class GameManager : ObjectRegistry {
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
         //TODO: total par, strokes.
-        OverlayText.text += string.Format("\n\n(Press Enter to {0})",
+        OverlayText.text += string.Format("\n\n(Press {0} to {1})",
+          PlatformEnter(),
           HoleIndex < Course.Instance.GetActs().Length - 1 ? "Continue" : "Restart Game");
         OnAcknowledge = () =>
         {
@@ -146,7 +155,7 @@ public class GameManager : ObjectRegistry {
   }
 
   void DetectedGaffe(Gaffe gaffe) {
-    Gaffer.SubText.text = gaffe.Message + "\nPress Enter to Continue";
+    Gaffer.SubText.text = gaffe.Message + string.Format("\nPress {0} to Continue", PlatformEnter());
     balls[CurrentHole().Ball].PlayBark(BarkType.gaffe);
     Gaffer.gameObject.SetActive(true);
 
@@ -195,8 +204,8 @@ public class GameManager : ObjectRegistry {
       }
     }
     if (!successHole) {
-      OverlayText.text = ParDisplay() + @"Take Next Shot?
-Press Enter";
+      OverlayText.text = ParDisplay() + string.Format(@"Take Next Shot?
+Press {0}", PlatformEnter());
       OnAcknowledge = () =>
       {
         OnAcknowledge = null;
@@ -209,8 +218,8 @@ Press Enter";
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
 
       if (HoleIndex < Course.Instance.GetActs().Length - 1) {
-        OverlayText.text = ParDisplay() + @"Hole Completed!
-Press Enter for Next";
+        OverlayText.text = ParDisplay() + string.Format(@"Hole Completed!
+Press {0} for Next", PlatformEnter());
         OnAcknowledge = () =>
         {
           OnAcknowledge = null;
@@ -218,10 +227,10 @@ Press Enter for Next";
         };
       } else {
         //HACK: only used if there isn't a final Act screen
-        OverlayText.text = @"You have finished
+        OverlayText.text = string.Format(@"You have finished
 this Evening's Course
 
-Press Enter to End";
+Press {0} to End", PlatformEnter());
         HoleIndex = 0; //to the main screen again
       }
     }
