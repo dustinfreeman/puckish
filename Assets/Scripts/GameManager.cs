@@ -93,7 +93,7 @@ public class GameManager : ObjectRegistry {
     Puck.Instance.TakeShot += Puck_TakeShot;
     Puck.Instance.AnyAction += Puck_AnyAction;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
-    Puck.Instance.Next += Puck_Next;
+    Puck.Instance.Next += SkipToNext;
 
     HoleIndex = 0;
   }
@@ -108,13 +108,13 @@ public class GameManager : ObjectRegistry {
   }
 
   bool skipNextAllBallsStopped = false;
-  private void Puck_Next(int nextDirn) {
+  public void SkipToNext(int nextDirn = 1) {
     if (AreAnyBallsMoving()) {
       foreach (var ball in balls.Values) {
         ball.StopMotion();
       }
     } else {
-      Debug.Log("Puck says next hole " + nextDirn);
+      Debug.Log("Puck says force skip to next hole " + nextDirn);
       HoleIndex = Utils.WrapClamp(HoleIndex, nextDirn, Course.Instance.GetActs().Length);
       skipNextAllBallsStopped = true;
       foreach (var ball in balls.Values) {

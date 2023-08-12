@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.ProBuilder;
 using static TiltFive.Input;
 
 public class T5ForPuckish : MonoBehaviour {
@@ -47,7 +48,6 @@ public class T5ForPuckish : MonoBehaviour {
 
     float triggerDisplacement = -1;
     TiltFive.Input.TryGetTrigger(out triggerDisplacement);
-    const WandButton CueButton = TiltFive.Input.WandButton.One;
     if (triggerDisplacement > _prevTriggerDisplacement && triggerDisplacement > TRIGGER_MAX_HYSTERESIS) {
       Puck.Instance.OnCueSqueezed(true);
     }
@@ -55,7 +55,9 @@ public class T5ForPuckish : MonoBehaviour {
       Puck.Instance.OnCueSqueezed(false);
     }
     _prevTriggerDisplacement = triggerDisplacement;
-    if (TiltFive.Input.GetButton(CueButton)) {
+
+    if (TiltFive.Input.GetButton(TiltFive.Input.WandButton.X)) {
+      Manager.SkipToNext();
       return; //do not proceed further
     }
 
