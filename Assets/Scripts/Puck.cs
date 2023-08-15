@@ -30,6 +30,8 @@ public class Puck : Singleton<Puck> {
   [SerializeField]
   GameObject CueStick;
   [SerializeField]
+  GameObject CurrentBallIndicator;
+  [SerializeField]
   TMPro.TextMeshProUGUI CurrentBallHUD;
   [SerializeField]
   AudioSource CueHitSFX;
@@ -69,6 +71,7 @@ public class Puck : Singleton<Puck> {
     set {
       _canTakeShot = value;
       CueStick.SetActive(_canTakeShot);
+      CurrentBallIndicator.SetActive(_canTakeShot);
     }
   }
 
