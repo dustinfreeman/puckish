@@ -7187,7 +7187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &310186303
 Transform:
   m_ObjectHideFlags: 0
@@ -34230,6 +34230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Manager: {fileID: 325239518}
   T5GameBoard: {fileID: 1504003931}
+  VirtualCueTip: {fileID: 310186302}
   DebugWandIndicator: {fileID: 1659637632}
 --- !u!43 &1256205485
 Mesh:

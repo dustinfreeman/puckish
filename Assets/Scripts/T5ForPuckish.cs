@@ -9,6 +9,9 @@ public class T5ForPuckish : MonoBehaviour {
   protected TiltFive.GameBoard T5GameBoard;
 
   [SerializeField]
+  protected GameObject VirtualCueTip;
+
+  [SerializeField]
   protected GameObject DebugWandIndicator;
 
   protected void Start() {
@@ -41,6 +44,14 @@ public class T5ForPuckish : MonoBehaviour {
   Vector2 _prevStickTilt = new Vector2(-10, -10);
 
   private void CheckWandInput() {
+    //Vector2 stickTilt;
+    //TiltFive.Input.TryGetStickTilt(out stickTilt);
+    //if (!_prevStickTilt.Equals(stickTilt)) {
+    //  _prevStickTilt = stickTilt;
+    //  Puck.Instance.DoYaw(stickTilt.x);
+    //}
+
+    //Wand Buttons
     if (TiltFive.Input.GetButtonDown(TiltFive.Input.WandButton.Two)) {
       Puck.Instance.Acknowledge();
       return;
@@ -59,18 +70,6 @@ public class T5ForPuckish : MonoBehaviour {
     if (TiltFive.Input.GetButtonDown(TiltFive.Input.WandButton.X)) {
       Manager.SkipToNext();
     }
-
-    //const WandButton PreciseButton = TiltFive.Input.WandButton.Two;
-    //bool preciseButtonDown = false;
-    //TiltFive.Input.TryGetButtonDown(PreciseButton, out preciseButtonDown);
-    //Puck.Instance.SetPreciseYaw(preciseButtonDown);
-
-    Vector2 stickTilt;
-    TiltFive.Input.TryGetStickTilt(out stickTilt);
-    if (!_prevStickTilt.Equals(stickTilt)) {
-      _prevStickTilt = stickTilt;
-      Puck.Instance.DoYaw(stickTilt.x);
-    }
   }
 
   private void Update() {
@@ -79,10 +78,14 @@ public class T5ForPuckish : MonoBehaviour {
     if (TiltFive.Input.GetWandAvailability()) {
       //Debug.Log(TiltFive.Wand.GetPosition() + " : " + TiltFive.Wand.GetRotation());
 
-      DebugWandIndicator.transform.position = TiltFive.Wand.GetPosition();
+      var wandPos = TiltFive.Wand.GetPosition();
+
+      DebugWandIndicator.transform.position = wandPos;
       DebugWandIndicator.transform.rotation = TiltFive.Wand.GetRotation();
 
       Puck.Instance.transform.eulerAngles = new Vector3(0, DebugWandIndicator.transform.eulerAngles.y, 0);
+
+      VirtualCueTip.transform.position = new Vector3(wandPos.x, 0.5f, wandPos.z) + Puck.Instance.transform.rotation * Vector3.forward * 4.0f;
     }
   }
 }
