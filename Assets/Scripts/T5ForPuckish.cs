@@ -56,9 +56,8 @@ public class T5ForPuckish : MonoBehaviour {
     }
     _prevTriggerDisplacement = triggerDisplacement;
 
-    if (TiltFive.Input.GetButton(TiltFive.Input.WandButton.X)) {
+    if (TiltFive.Input.GetButtonDown(TiltFive.Input.WandButton.X)) {
       Manager.SkipToNext();
-      return; //do not proceed further
     }
 
     //const WandButton PreciseButton = TiltFive.Input.WandButton.Two;
