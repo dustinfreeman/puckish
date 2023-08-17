@@ -100,7 +100,7 @@ public class Puck : Singleton<Puck> {
     }
   }
 
-  public event Action<Ball> TakeShot;
+  public event Action<Ball> TookShot;
   public event Action AnyAction;
   public event Action PuckAcknowledges;
   public event Action<int> Next;
@@ -153,6 +153,19 @@ public class Puck : Singleton<Puck> {
     OnCueSqueezed(value.isPressed);
   }
 
+  public void TakeTheShot(Vector3 force) {
+    if (!CurrentBall) {
+      Debug.LogWarning("Attempt to take shot, but there is no CurrentBall");
+      return;
+    }
+
+    var rb = CurrentBall.GetComponent<Rigidbody>();
+    rb.AddForce(force);
+    CueHitSFX.PlayOneShot(CueHitSFX.clip);
+    this.TookShot(CurrentBall);
+    CurrentBall = null;
+  }
+
   public void OnCueSqueezed(bool isSqueezed) {
     AnyAction();
 
@@ -163,12 +176,7 @@ public class Puck : Singleton<Puck> {
     if (!CanTakeShot) { return; }
 
     if (PreparingCueShot && !isSqueezed) {
-      //Hit the ball!
-      var rb = CurrentBall.GetComponent<Rigidbody>();
-      rb.AddForce(transform.forward * ShotForceCharged);
-      CueHitSFX.PlayOneShot(CueHitSFX.clip);
-      this.TakeShot(CurrentBall);
-      CurrentBall = null;
+      TakeTheShot(transform.forward * ShotForceCharged);
     }
     if (!PreparingCueShot && isSqueezed) {
       //start pulling back

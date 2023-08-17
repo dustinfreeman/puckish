@@ -85,7 +85,7 @@ public class T5ForPuckish : MonoBehaviour {
 
       Puck.Instance.transform.eulerAngles = new Vector3(0, DebugWandIndicator.transform.eulerAngles.y, 0);
 
-      VirtualCueTip.transform.position = new Vector3(wandPos.x, 0.5f, wandPos.z) + Puck.Instance.transform.rotation * Vector3.forward * 4.0f;
+      VirtualCueTip.transform.position = new Vector3(wandPos.x, 0.5f, wandPos.z) + Puck.Instance.transform.rotation * Vector3.forward * 5.5f;
     }
   }
 }

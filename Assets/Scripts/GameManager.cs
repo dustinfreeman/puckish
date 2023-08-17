@@ -90,7 +90,7 @@ public class GameManager : ObjectRegistry {
   void Start() {
     SanityCheckCourse(Course.Instance.GetActs());
 
-    Puck.Instance.TakeShot += Puck_TakeShot;
+    Puck.Instance.TookShot += Puck_TookShot;
     Puck.Instance.AnyAction += Puck_AnyAction;
     Puck.Instance.PuckAcknowledges += Puck_PuckAcknowledges;
     Puck.Instance.Next += SkipToNext;
@@ -236,7 +236,7 @@ Press {0} to End", PlatformEnter());
     }
   }
 
-  private void Puck_TakeShot(Ball obj) {
+  private void Puck_TookShot(Ball obj) {
     InteractionRegistry.Interactions.Clear();
     Puck.Instance.CanTakeShot = false;
     ShotsTakenThisHole++;
