@@ -153,14 +153,14 @@ public class Puck : Singleton<Puck> {
     OnCueSqueezed(value.isPressed);
   }
 
-  public void TakeTheShot(Vector3 force) {
+  public void TakeTheShot(Vector3 force, float verticalForce = 0) {
     if (!CurrentBall) {
       Debug.LogWarning("Attempt to take shot, but there is no CurrentBall");
       return;
     }
 
     var rb = CurrentBall.GetComponent<Rigidbody>();
-    rb.AddForce(force);
+    rb.AddForce(force + Vector3.up * verticalForce);
     CueHitSFX.PlayOneShot(CueHitSFX.clip);
     this.TookShot(CurrentBall);
     CurrentBall = null;

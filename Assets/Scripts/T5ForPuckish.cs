@@ -9,7 +9,7 @@ public class T5ForPuckish : MonoBehaviour {
   protected TiltFive.GameBoard T5GameBoard;
 
   [SerializeField]
-  protected GameObject VirtualCueTip;
+  protected VirtualCueTip VirtualCueTip;
 
   [SerializeField]
   protected GameObject DebugWandIndicator;
@@ -79,13 +79,12 @@ public class T5ForPuckish : MonoBehaviour {
       //Debug.Log(TiltFive.Wand.GetPosition() + " : " + TiltFive.Wand.GetRotation());
 
       var wandPos = TiltFive.Wand.GetPosition();
-
+      var wandRot = TiltFive.Wand.GetRotation();
       DebugWandIndicator.transform.position = wandPos;
-      DebugWandIndicator.transform.rotation = TiltFive.Wand.GetRotation();
+      DebugWandIndicator.transform.rotation = wandRot;
 
       Puck.Instance.transform.eulerAngles = new Vector3(0, DebugWandIndicator.transform.eulerAngles.y, 0);
-
-      VirtualCueTip.transform.position = new Vector3(wandPos.x, 0.5f, wandPos.z) + Puck.Instance.transform.rotation * Vector3.forward * 5.5f;
+      VirtualCueTip.SetWandTipPos(wandPos + wandRot * Vector3.forward * 5.5f);
     }
   }
 }
