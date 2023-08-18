@@ -20335,8 +20335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b771c484a9d63cf4c83037a9981cb928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Description: "Let us start with basic exercises...\n\rGet me into the Grove\n\nTrigger
-    - Hold to charge shot, \nrelease to shoot"
+  Description: "Let us start with basic exercises...\n\rGet me into the Grove"
   StartView: {fileID: 0}
   Ball: Head Butler
   BallStartTransforms:

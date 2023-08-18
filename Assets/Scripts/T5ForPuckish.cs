@@ -59,12 +59,12 @@ public class T5ForPuckish : MonoBehaviour {
 
     float triggerDisplacement = -1;
     TiltFive.Input.TryGetTrigger(out triggerDisplacement);
-    if (triggerDisplacement > _prevTriggerDisplacement && triggerDisplacement > TRIGGER_MAX_HYSTERESIS) {
-      Puck.Instance.OnCueSqueezed(true);
-    }
-    if (triggerDisplacement < _prevTriggerDisplacement && triggerDisplacement < TRIGGER_MIN_HYSTERESIS) {
-      Puck.Instance.OnCueSqueezed(false);
-    }
+    //if (triggerDisplacement > _prevTriggerDisplacement && triggerDisplacement > TRIGGER_MAX_HYSTERESIS) {
+    //  Puck.Instance.OnCueSqueezed(true);
+    //}
+    //if (triggerDisplacement < _prevTriggerDisplacement && triggerDisplacement < TRIGGER_MIN_HYSTERESIS) {
+    //  Puck.Instance.OnCueSqueezed(false);
+    //}
     _prevTriggerDisplacement = triggerDisplacement;
 
     if (TiltFive.Input.GetButtonDown(TiltFive.Input.WandButton.X)) {
