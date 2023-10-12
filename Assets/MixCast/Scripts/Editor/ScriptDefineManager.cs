@@ -165,7 +165,7 @@ namespace BlueprintReality.MixCast
 
         private static void Update()
         {
-#if UNITY_2017_3_OR_NEWER
+#if UNITY_2017_3_OR_NEWER && UNITY_STANDALONE_WIN
             if (listPackageReq != null && listPackageReq.IsCompleted)
             {
                 if (listPackageReq.Error != null || listPackageReq.Result == null)

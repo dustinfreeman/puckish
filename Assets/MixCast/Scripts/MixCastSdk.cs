@@ -13,9 +13,9 @@
 * forbidden unless prior written permission is obtained from Blueprint Reality Inc.
 ***********************************************************************************/
 
+#if UNITY_STANDALONE_WIN
 using BlueprintReality.MixCast.Experience;
 using BlueprintReality.MixCast.Shared;
-#if UNITY_STANDALONE_WIN
 using BlueprintReality.MixCast.Thrift;
 #endif
 using System;
@@ -54,10 +54,13 @@ namespace BlueprintReality.MixCast
 
         public static bool CommandLineArgBlockingActivation()
         {
+        #if UNITY_STANDALONE_WIN
             if (Data.MixCastSdkData.ProjectSettings.requireCommandLineArg)
                 return Array.IndexOf<string>(Environment.GetCommandLineArgs(), EnableCmdLineArg) == -1;
             else
                 return Array.IndexOf<string>(Environment.GetCommandLineArgs(), DisableCmdLineArg) != -1;
+        #endif
+            return false;
         }
 
 #pragma warning disable 0414
@@ -86,6 +89,7 @@ namespace BlueprintReality.MixCast
 #endif
         }
 
+#if UNITY_STANDALONE_WIN
         public static void TakeSnapshotFromCamera(VirtualCamera camera)
         {
             if (Active)
@@ -97,6 +101,7 @@ namespace BlueprintReality.MixCast
             else
                 Debug.LogError("MixCast isn't running!");
         }
+#endif
 
 #if UNITY_EDITOR
         [UnityEditor.MenuItem("MixCast/Go to Website", priority = 1)]

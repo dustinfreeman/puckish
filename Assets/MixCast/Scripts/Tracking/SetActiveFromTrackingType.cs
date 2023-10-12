@@ -20,6 +20,7 @@ namespace BlueprintReality.MixCast
 {
     public class SetActiveFromTrackingType : MonoBehaviour
     {
+        #if UNITY_STANDALONE_WIN
         public Shared.TrackingSource[] matchSources = new Shared.TrackingSource[0];
 
         public GameObject[] activateIfMatch = new GameObject[0];
@@ -47,5 +48,6 @@ namespace BlueprintReality.MixCast
             for (int i = 0; i < deactivateIfMatch.Length; i++)
                 deactivateIfMatch[i].SetActive(!match);
         }
+      #endif
     }
 }

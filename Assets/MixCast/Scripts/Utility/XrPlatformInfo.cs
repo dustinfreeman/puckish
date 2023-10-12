@@ -13,6 +13,7 @@
 * forbidden unless prior written permission is obtained from Blueprint Reality Inc.
 ***********************************************************************************/
 
+#if UNITY_STANDALONE_WIN
 using BlueprintReality.MixCast.Shared;
 using System.Collections;
 using System.Collections.Generic;
@@ -167,3 +168,5 @@ namespace BlueprintReality.MixCast
         }
     }
 }
+
+#endif

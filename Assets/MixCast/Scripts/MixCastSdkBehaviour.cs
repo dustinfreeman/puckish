@@ -17,7 +17,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using System.IO;
-using Thrift.Configuration;
 #if MIXCAST_LWRP || MIXCAST_URP || MIXCAST_HDRP
 using UnityEngine.Rendering;
 #endif
@@ -31,6 +30,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.HighDefinition;
 #endif
 #if UNITY_STANDALONE_WIN
+using Thrift.Configuration;
 using Thrift.Unity;
 using BlueprintReality.MixCast.Data;
 using BlueprintReality.MixCast.Experience;

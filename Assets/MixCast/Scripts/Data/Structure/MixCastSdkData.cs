@@ -20,6 +20,7 @@ namespace BlueprintReality.MixCast.Data
 {
     public static class MixCastSdkData
     {
+        #if UNITY_STANDALONE_WIN
         private const string PROJECT_SETTINGS_FILENAME = "MixCast_ProjectSettings";
 
         //Build-time
@@ -103,5 +104,7 @@ namespace BlueprintReality.MixCast.Data
                     return VideoInputs[i];
             return null;
         }
+
+    #endif
     }
 }

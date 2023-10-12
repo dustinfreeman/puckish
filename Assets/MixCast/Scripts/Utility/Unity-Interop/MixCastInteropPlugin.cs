@@ -35,7 +35,9 @@ namespace BlueprintReality.MixCast.Interprocess
         [RuntimeInitializeOnLoadMethod]
         static void Init()
         {
+            #if UNITY_STANDALONE_WIN
             RegisterDebugCallback(OnDebugCallback);
+            #endif
         }
 
 

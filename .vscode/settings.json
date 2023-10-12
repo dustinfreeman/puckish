@@ -49,6 +49,8 @@
         "obj/":true,
         "Obj/":true,
         "temp/":true,
-        "Temp/":true
-    }
+  },
+  "editor.formatOnSave": false,
+  "omnisharp.useModernNet": false,
+  "diffEditor.ignoreTrimWhitespace": false
 }

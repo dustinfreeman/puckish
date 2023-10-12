@@ -16,13 +16,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_STANDALONE_WIN
 using BlueprintReality.MixCast.Shared;
+#endif
 
 namespace BlueprintReality.MixCast
 {
     [AddComponentMenu("MixCast/Custom Tracked Object")]
     public class CustomTrackedObjectBehaviour : MonoBehaviour
     {
+        #if UNITY_STANDALONE_WIN
         public static List<CustomTrackedObjectBehaviour> ActiveCustomTrackedObjects { get; protected set; }
         static CustomTrackedObjectBehaviour()
         {
@@ -43,7 +46,6 @@ namespace BlueprintReality.MixCast
         [Tooltip("If this is set, poses reported to MixCast will be relative to the origin's transform rather than being in world space")]
         public Transform origin;
 
-#if UNITY_STANDALONE_WIN
         private void OnEnable()
         {
             ActiveCustomTrackedObjects.Add(this);

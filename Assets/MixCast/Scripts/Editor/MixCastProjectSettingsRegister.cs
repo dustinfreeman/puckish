@@ -21,6 +21,7 @@ namespace BlueprintReality.MixCast
 {
     public static class MixCastProjectSettingsRegister
     {
+        #if UNITY_STANDALONE_WIN
         static SerializedObject serializedObj;
 
         [SettingsProvider]
@@ -41,6 +42,7 @@ namespace BlueprintReality.MixCast
 
             return provider;
         }
+        #endif
     }
 }
 #endif

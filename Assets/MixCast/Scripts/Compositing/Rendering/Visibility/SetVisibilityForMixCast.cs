@@ -16,7 +16,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+#if UNITY_STANDALONE_WIN
 using BlueprintReality.MixCast.Shared;
+#endif
 
 namespace BlueprintReality.MixCast.Cameras
 {
