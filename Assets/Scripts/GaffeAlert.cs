@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GaffeAlert : MonoBehaviour {
   [SerializeField]
-  public TMPro.TextMeshPro SubText;
+  public TMPro.TextMeshProUGUI SubText;
 
   private void Start() {
     //gameObject.SetActive(false);

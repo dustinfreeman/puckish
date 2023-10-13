@@ -11,6 +11,9 @@ public class ObjectRegistry : MonoBehaviour {
     }
     targets.Add(target.name, target);
   }
+  public GameObject GetTarget(string targetName) {
+    return targets[targetName].gameObject;
+  }
 
   protected readonly static Dictionary<string, Ball> balls = new();
   public static void RegisterBall(Ball ball) {

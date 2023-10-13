@@ -30,15 +30,22 @@ public class Puck : Singleton<Puck> {
   [SerializeField]
   GameObject CueStick;
   [SerializeField]
+  GameObject CurrentBallIndicator;
+  [SerializeField]
   TMPro.TextMeshProUGUI CurrentBallHUD;
   [SerializeField]
   AudioSource CueHitSFX;
 
+  public event Action<Transform> ViewpointSet;
   public void SetViewpoint(Transform viewpointTransform) {
+    //Called to set where the 2D game's cue should be centered around.
+
     transform.position = viewpointTransform.position +
-  //want to be "on ground"
-  -(Vector3.up * viewpointTransform.localScale.y * 0.5f);
+      //want to be "on ground"
+      -(0.5f * viewpointTransform.localScale.y * Vector3.up);
     transform.eulerAngles = new Vector3(0, viewpointTransform.eulerAngles.y, 0);
+
+    ViewpointSet?.Invoke(viewpointTransform);
   }
 
   private Ball _currentBall = null;
@@ -53,6 +60,7 @@ public class Puck : Singleton<Puck> {
       if (!_currentBall) { return; }
       Debug.Log("Current Ball By Name: " + CurrentBall + transform.eulerAngles.ToString());
       CurrentBall.PlayBark(BarkType.turn_start);
+
       SetViewpoint(_currentBall.transform);
     }
   }
@@ -63,6 +71,7 @@ public class Puck : Singleton<Puck> {
     set {
       _canTakeShot = value;
       CueStick.SetActive(_canTakeShot);
+      CurrentBallIndicator.SetActive(_canTakeShot);
     }
   }
 
@@ -91,7 +100,7 @@ public class Puck : Singleton<Puck> {
     }
   }
 
-  public event Action<Ball> TakeShot;
+  public event Action<Ball> TookShot;
   public event Action AnyAction;
   public event Action PuckAcknowledges;
   public event Action<int> Next;
@@ -105,6 +114,7 @@ public class Puck : Singleton<Puck> {
     if (dirn == 0) {
       return;
     }
+    PreparingCueShot = false;
     if (!CurrentBall) {
       CurrentBall = BallParent.GetComponentsInChildren<Ball>().First();
       return;
@@ -123,12 +133,15 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnMove(InputValue value) {
-    PreparingCueShot = false;
-
     var v = value.Get<Vector2>();
     ChooseNextBall((int)v.y);
+    DoYaw(v.x);
+  }
 
-    yawing = v.x;
+  public void DoYaw(float yaw) {
+    Debug.Log("DoYaw " + yaw);
+    PreparingCueShot = false;
+    yawing = yaw;
     AnyAction();
   }
 
@@ -137,39 +150,58 @@ public class Puck : Singleton<Puck> {
   }
 
   public void OnJump(InputValue value) {
+    OnCueSqueezed(value.isPressed);
+  }
+
+  public void TakeTheShot(Vector3 force, float verticalForce = 0) {
+    if (!CurrentBall) {
+      Debug.LogWarning("Attempt to take shot, but there is no CurrentBall");
+      return;
+    }
+
+    var rb = CurrentBall.GetComponent<Rigidbody>();
+    rb.AddForce(force + Vector3.up * verticalForce);
+    CueHitSFX.PlayOneShot(CueHitSFX.clip);
+    this.TookShot(CurrentBall);
+    CurrentBall = null;
+  }
+
+  public void OnCueSqueezed(bool isSqueezed) {
     AnyAction();
 
     if (yawing != 0) {
       PreparingCueShot = false;
       return;
     }
-
     if (!CanTakeShot) { return; }
 
-    if (PreparingCueShot && !value.isPressed) {
-      //Hit the ball!
-      var rb = CurrentBall.GetComponent<Rigidbody>();
-      rb.AddForce(transform.forward * ShotForceCharged);
-      CueHitSFX.PlayOneShot(CueHitSFX.clip);
-      this.TakeShot(CurrentBall);
-      CurrentBall = null;
+    if (PreparingCueShot && !isSqueezed) {
+      TakeTheShot(transform.forward * ShotForceCharged);
     }
-    if (!PreparingCueShot && value.isPressed) {
+    if (!PreparingCueShot && isSqueezed) {
       //start pulling back
       ShotForceCharged = shotForceMin;
     }
-    PreparingCueShot = value.isPressed;
+    PreparingCueShot = isSqueezed;
   }
 
   public void OnSprint(InputValue value) {
-    preciseYaw = value.isPressed;
+    SetPreciseYaw(value.isPressed);
+  }
+
+  public void SetPreciseYaw(bool _preciseYaw) {
+    preciseYaw = _preciseYaw;
   }
 
   public void OnAcknowledge(InputValue value) {
     AnyAction();
     if (value.isPressed) {
-      PuckAcknowledges();
+      Acknowledge();
     }
+  }
+
+  public void Acknowledge() {
+    PuckAcknowledges();
   }
 #endif
 

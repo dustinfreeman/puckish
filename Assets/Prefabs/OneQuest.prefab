@@ -144,8 +144,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Get the Butler Into The Grove
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bad865a2b552d364e892fe373dfe0046, type: 2}
-  m_sharedMaterial: {fileID: 6020056996335220552, guid: bad865a2b552d364e892fe373dfe0046,
+  m_fontAsset: {fileID: 11400000, guid: 93dc6f0a20c717641b7d7abd9b169a9f, type: 2}
+  m_sharedMaterial: {fileID: -8093436646415499338, guid: 93dc6f0a20c717641b7d7abd9b169a9f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -170,8 +170,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
