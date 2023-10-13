@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class GameManager : ObjectRegistry {
   [SerializeField]
-  TMPro.TextMeshPro OverlayText;
-  [SerializeField]
   GameObject QuestParent;
   [SerializeField]
-  GaffeAlert Gaffer;
-  [SerializeField]
   AudioSource HoleStartSFX;
+
+  UIManager uiManager;
 
   protected string PlatformEnter() {
     //TiltFive:
@@ -32,16 +30,13 @@ public class GameManager : ObjectRegistry {
       ShotsTakenThisHole = 0;
 
       var act = Course.Instance.GetActs()[HoleIndex];
-      OverlayText.text = act.Description;
+      string overlayText = act.Description;
 
       //Hide Target Colliders; will unhide later only ones relevant to hole
       foreach (var target in targets.Values) {
         target.gameObject.SetActive(false);
       }
-      //Hide Quests
-      foreach (var quest in QuestParent.GetComponentsInChildren<OneQuest>()) {
-        quest.gameObject.SetActive(false);
-      }
+      uiManager.EncounterTasksHideAll();
 
       if (act is HoleDefn) {
         var hole = (HoleDefn)act;
@@ -49,10 +44,7 @@ public class GameManager : ObjectRegistry {
           var success = hole.SuccessDefns[i];
           GetTarget(success.Target).SetActive(true);
 
-          var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
-          questUI.State = OneQuest.QuestState.None;
-          questUI.gameObject.SetActive(true);
-          questUI.text.text = success.Description();
+          uiManager.EncounterTaskSetup(i, success.Description());
         }
         foreach (var ballStart in hole.BallStartTransforms) {
           balls[ballStart.BallName].transform.SetPositionAndRotation(ballStart.StartTransform.position, ballStart.StartTransform.rotation);
@@ -60,13 +52,13 @@ public class GameManager : ObjectRegistry {
         Puck.Instance.CurrentBall = balls[hole.Ball];
 
         if (hole.Par > 0) {
-          OverlayText.text += string.Format("\n\nPar: {0}", hole.Par);
+          overlayText += string.Format("\n\nPar: {0}", hole.Par);
         }
       } else { //Simple Inter-Act Screen
         Puck.Instance.CurrentBall = null;
         Puck.Instance.SetViewpoint(act.StartView);
         //TODO: total par, strokes.
-        OverlayText.text += string.Format("\n\n(Press {0} to {1})",
+        overlayText += string.Format("\n\n(Press {0} to {1})",
           PlatformEnter(),
           HoleIndex < Course.Instance.GetActs().Length - 1 ? "Continue" : "Restart Game");
         OnAcknowledge = () =>
@@ -75,6 +67,7 @@ public class GameManager : ObjectRegistry {
           HoleIndex = Utils.WrapClamp(HoleIndex, +1, Course.Instance.GetActs().Length);
         };
       }
+      uiManager.SetOverlayText(overlayText);
       Puck.Instance.GetComponent<HUD>().ShowTargetHUD = false;
     }
   }
@@ -86,6 +79,10 @@ public class GameManager : ObjectRegistry {
     return null;
   }
 
+  protected void Awake() {
+    //base.Awake();
+    uiManager = GetComponent<UIManager>();
+  }
 
   void Start() {
     SanityCheckCourse(Course.Instance.GetActs());
@@ -101,7 +98,7 @@ public class GameManager : ObjectRegistry {
   private void Puck_AnyAction() {
     if (Puck.Instance.CurrentBall != null) {
       //ready to orient for the shot, hide overlay
-      OverlayText.text = "";
+      uiManager.SetOverlayText("");
     }
 
     Puck.Instance.GetComponent<HUD>().ShowTargetHUD = true;
@@ -147,22 +144,19 @@ public class GameManager : ObjectRegistry {
     }
     for (int i = 0; i < hole.SuccessDefns.Length; i++) {
       var successDefn = hole.SuccessDefns[i];
-      var questUI = QuestParent.GetComponentsInChildren<OneQuest>(true)[i];
-
-      questUI.State = TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject) ?
-        OneQuest.QuestState.Passed : OneQuest.QuestState.None;
+      uiManager.EncounterTaskUpdate(i, TargetCollider.DoCollidersOverlap(targets[successDefn.Target].gameObject, balls[successDefn.BallName].gameObject) ?
+        OneQuest.QuestState.Passed : OneQuest.QuestState.None);
     }
   }
 
   void DetectedGaffe(Gaffe gaffe) {
-    Gaffer.SubText.text = gaffe.Message + string.Format("\nPress {0} to Continue", PlatformEnter());
+    uiManager.ShowGaffe(gaffe.Message + string.Format("\nPress {0} to Continue", PlatformEnter()));
     balls[CurrentHole().Ball].PlayBark(BarkType.gaffe);
-    Gaffer.gameObject.SetActive(true);
 
     OnAcknowledge = () =>
     {
       OnAcknowledge = null;
-      Gaffer.gameObject.SetActive(false);
+      uiManager.ShowGaffe("");
       //HACK: just continue along
       Puck.Instance.CurrentBall = balls[CurrentHole().Ball];
     };
@@ -204,8 +198,8 @@ public class GameManager : ObjectRegistry {
       }
     }
     if (!successHole) {
-      OverlayText.text = ParDisplay() + string.Format(@"Take Next Shot?
-Press {0}", PlatformEnter());
+      uiManager.SetOverlayText(ParDisplay() + string.Format(@"Take Next Shot?
+Press {0}", PlatformEnter()));
       OnAcknowledge = () =>
       {
         OnAcknowledge = null;
@@ -218,8 +212,8 @@ Press {0}", PlatformEnter());
       HoleStartSFX.PlayOneShot(HoleStartSFX.clip);
 
       if (HoleIndex < Course.Instance.GetActs().Length - 1) {
-        OverlayText.text = ParDisplay() + string.Format(@"Hole Completed!
-Press {0} for Next", PlatformEnter());
+        uiManager.SetOverlayText(ParDisplay() + string.Format(@"Hole Completed!
+Press {0} for Next", PlatformEnter()));
         OnAcknowledge = () =>
         {
           OnAcknowledge = null;
@@ -227,10 +221,10 @@ Press {0} for Next", PlatformEnter());
         };
       } else {
         //HACK: only used if there isn't a final Act screen
-        OverlayText.text = string.Format(@"You have finished
+        uiManager.SetOverlayText(string.Format(@"You have finished
 this Evening's Course
 
-Press {0} to End", PlatformEnter());
+Press {0} to End", PlatformEnter()));
         HoleIndex = 0; //to the main screen again
       }
     }
