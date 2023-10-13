@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
   [SerializeField]
   GameObject[] EncounterTasksParent;
 
+  private void Start() {
+    ShowGaffe("");
+  }
+
   public void SetOverlayText(string text) {
     foreach (var t in OverlayText) {
       t.text = text;
